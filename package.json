@@ -1,0 +1,21 @@
+{
+  "name": "identity_voting_experiment",
+  "version": "1.0.0",
+  "description": "This is the code for the survey for the project: \"Alienated at Home: How Cultural Estrangement Drives Populist Votes.\"",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "jsdom"
+  }
+}

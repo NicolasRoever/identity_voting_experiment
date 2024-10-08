@@ -1,0 +1,91 @@
+{% extends "global/Page.html" %}
+
+{{ block title }}Survey{{ endblock }}
+
+{% block content %}
+
+
+Geben Sie an, wie wichtig Ihnen die folgenden Themen sind, wenn Sie wählen. Wir haben Ihnen für jedes Thema eine Beispielfragestellung angegeben, die Themen sind aber nicht auf diese Fragen beschränkt.
+Sie haben insgesamt 100 Punkte, die Sie auf die Themen aufteilen können.
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Thema</th>
+            <th>Beispielfragestellung</th>
+            <th>Wichtigkeit (0-100)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Familienpolitik</td>
+            <td>Die traditionelle Familie aus Vater, Mutter und Kindern soll stärker als andere Lebensgemeinschaften gefördert werden.</td>
+            <td>{{ form.issue_1_importance }}</td>
+        </tr>
+        <tr>
+            <td>Arbeitsmarktpolitik</td>
+            <td>Der gesetzliche Mindestlohn soll erhöht werden.</td>
+            <td>{{ form.issue_2_importance }}</td>
+        </tr>
+        <tr>
+            <td>Steuerpolitik</td>
+            <td>Auf hohe Vermögen soll wieder eine Steuer erhoben werden.</td>
+            <td>{{ form.issue_3_importance }}</td>
+        </tr>
+        <tr>
+            <td>Gleichstellungspolitik</td>
+            <td>In Veröffentlichungen des Landes sollen Schreibweisen, die neben der männlichen und weiblichen auch andere Geschlechtsidentitäten abbilden, verboten werden.</td>
+            <td>{{ form.issue_4_importance }}</td>
+        </tr>
+        <tr>
+            <td>Sozialpolitik</td>
+            <td>Das Land Brandenburg soll Frauenhäuser stärker finanziell unterstützen.</td>
+            <td>{{ form.issue_5_importance }}</td>
+        </tr>
+        <tr>
+            <td>Wohnungspolitik</td>
+            <td>Sozialwohnungen sollen vorrangig an Deutsche vergeben werden.</td>
+            <td>{{ form.issue_6_importance }}</td>
+        </tr>
+        <tr>
+            <td>Europapolitik</td>
+            <td>Die EU soll sich dafür einsetzen, dass Schwangerschaftsabbrüche in allen Mitgliedstaaten straffrei möglich sind.</td>
+            <td>{{ form.issue_7_importance }}</td>
+        </tr>
+        <tr>
+            <td>Gesundheitspolitik</td>
+            <td>Mehr Krankenhäuser sollen in öffentlicher Trägerschaft sein.</td>
+            <td>{{ form.issue_8_importance }}</td>
+        </tr>
+        <tr>
+            <td>Haushaltspolitik</td>
+            <td>Überschüsse im Bundeshaushalt sollen vorrangig zum Abbau von Schulden eingesetzt werden.</td>
+            <td>{{ form.issue_9_importance }}</td>
+        </tr>
+        <tr>
+            <td>Sozialhilfepolitik</td>
+            <td>Empfängerinnen und Empfängern von Bürgergeld, die Jobangebote ablehnen, sollen weiterhin Leistungen gekürzt werden können.</td>
+            <td>{{ form.issue_10_importance }}</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="2"><strong>Gesamtsumme</strong></td>
+            <td><strong id="total-points">0</strong></td>
+        </tr>
+    </tfoot>
+</table>
+
+</table>
+
+<script src="{{static 'survey_functions.js' }}"></script>
+
+<script>
+    const formfieldNames = ['issue_1_importance', 'issue_2_importance', 'issue_3_importance', 'issue_4_importance', 'issue_5_importance', 'issue_6_importance', 'issue_7_importance', 'issue_8_importance', 'issue_9_importance', 'issue_10_importance'];
+    const totalElementId = 'total-points';
+    setupPointsSummation(formfieldNames, totalElementId);
+</script>
+
+{% next_button %}
+
+{% endblock %}

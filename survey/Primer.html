@@ -1,0 +1,57 @@
+{% extends "global/Page.html" %}
+
+{{ block title }}Survey{{ endblock }}
+
+{% block content %}
+<style>
+    .form-group {
+        position: relative;
+    }
+
+    #wordCounter {
+        position: absolute;
+        bottom: -25px;
+        right: 0;
+        font-size: 14px;
+        color: #888;
+    }
+
+    textarea {
+        resize: none;
+    }
+</style>
+
+<img src="{{ static 'images/CSD.jpeg' }}" alt="Christopher Street Day Image" style="width: 100%; height: auto;">
+
+
+
+<form method="post">
+    
+    <div class="form-group">
+        <label for="essay">Feiern Sie den Christopher Street Day? Wenn ja, warum? Wenn nein, warum nicht? <br>Schreiben Sie mindestens 100 Wörter.</label>
+        <textarea id="essay" name="cultural_primer_individual" class="form-control" rows="5" oninput="triggerWordCountUpdate()" placeholder="Schreiben Sie hier Ihre Antwort..."></textarea>
+        <div class="word-counter" id="wordCounter">0 Wörter.</div>
+    </div>
+
+    <br>
+    <div class="form-group">
+        <label for="essay">Halten Sie Veranstaltungen wie den Christopher Street Day für wichtig für den Zusammenhalt einer Gesellschaft? <br>Schreiben Sie mindestens 100 Wörter.</label>
+        <textarea id="essay" name="cultural_primer_society" class="form-control" rows="5" oninput="triggerWordCountUpdate()" placeholder="Schreiben Sie hier Ihre Antwort..."></textarea>
+        <div class="word-counter" id="wordCounter">0 Wörter.</div>
+    </div>
+
+    <br>
+</form>
+
+{{ next_button }}
+
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script src="{{static 'survey_functions.js' }}"></script>
+
+
+{% endblock %}

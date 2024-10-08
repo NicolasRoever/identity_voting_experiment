@@ -1,0 +1,107 @@
+{{ extends "global/Page.html" }}
+
+{{ block title }}
+    Video und Bewertung
+{{ endblock }}
+
+{{ block content }}
+
+<video width="100%" controls>
+    <source src="{{ static video_url }}" type="video/mp4">
+    Ihr Browser unterstützt das Video-Tag nicht.
+</video>
+
+<hr>
+
+<p>
+    Wie stark tendieren Sie in einer Wahl zu einem der beiden Politiker? Bewegen Sie den Slider.
+</p>
+
+<div class="form-group">
+    <input type="range" 
+           class="form-range" 
+           id="choice_muetzenich_frohmeier" 
+           name="choice_muetzenich_frohmeier" 
+           min="0" 
+           max="100" 
+           step="1">
+    <div class="d-flex justify-content-between">
+        <span id="{{ politician_1 }}_label">{{ politician_1 }}</span>
+        <span id="{{ politician_2 }}_label">{{ politician_2 }}</span>
+    </div>
+</div>
+
+<hr>
+
+<p>
+    Warum haben Sie diese Wahl getroffen?
+</p>
+
+<textarea class="form-control" id="reason_choice_{{ politician_1 }}_{{ politician_2 }}" name="reason_choice_{{ politician_1 }}_{{ politician_2 }}" rows="3"></textarea>
+
+<hr>
+
+<br>
+
+<p>
+    Um den Politikern die Meinung von Bürgern näher zu bringen, sammeln wir Statements und schreiben diese in einem Brief an die Politiker.
+</p>
+
+<p>
+    Sie können ein Statement schreiben. Wir fügen Ihren Namen und das Statement in den Brief hinzu. Wenn Sie kein Statement schreiben möchten, wählen Sie "Ich möchte kein Statement schreiben".
+</p>
+
+<div style="background-color: #f0f0f0; padding: 15px; border-radius: 5px;">
+    <p>
+        1. Statement für {{ politician_1 }}
+    </p>
+
+    <div class="form-group">
+        <label for="{{ politician_1 }}_name">Ihr Name (Vorname, Nachname)</label>
+        <input type="text" class="form-control" id="{{ politician_1 }}_name" name="{{ politician_1 }}_name" placeholder="z.B. Hans Steffens">
+    </div>
+
+    <div class="form-group">
+        <label for="{{ politician_1 }}_statement">Ihr Statement</label>
+        <textarea class="form-control" id="{{ politician_1 }}_statement" name="{{ politician_1 }}_statement" rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="{{ politician_1 }}_no_statement_choice">
+            <input type="checkbox" id="{{ politician_1 }}_no_statement_choice" name="{{ politician_1 }}_no_statement_choice" value="True">
+            Ich möchte kein Statement schreiben.
+        </label>
+    </div>
+
+</div>
+
+<br>
+
+<div style="background-color: #f0f0f0; padding: 15px; border-radius: 5px;">
+    <p>
+        2. Statement für {{ politician_2 }}
+    </p>
+
+    <div class="form-group">
+    <label for="{{ politician_2 }}_name">Ihr Name (Vorname, Nachname)</label>
+    <input type="text" class="form-control" id="{{ politician_2 }}_name" name="{{ politician_2 }}_name" placeholder="z.B. Hans Steffens">
+
+<div class="form-group">
+    <label for="{{ politician_2 }}_statement">Ihr Statement</label>
+    <textarea class="form-control" id="{{ politician_2 }}_statement" name="{{ politician_2 }}_statement" rows="3"></textarea>
+</div>
+
+<div class="form-group">
+    <label for="{{ politician_2 }}_no_statement_choice">
+        <input type="checkbox" id="{{ politician_2 }}_no_statement_choice" name="{{ politician_2 }}_no_statement_choice" value="True">
+        Ich möchte kein Statement schreiben.
+    </label>
+</div>
+</div>
+
+<br>
+
+{{ next_button }}
+
+
+{{ endblock }}

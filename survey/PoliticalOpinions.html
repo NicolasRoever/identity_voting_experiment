@@ -1,0 +1,65 @@
+{% extends "global/Page.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Political Opinion Survey
+{% endblock %}
+
+{% block content %}
+<h3>Bitte geben Sie Ihre Meinungen zu den folgenden Statements ein:</h3>
+<form method="post">
+
+    
+    <div class="mb-3">
+        <label for="political_q_1" class="form-label">Die traditionelle Familie aus Vater, Mutter und Kindern soll stärker als andere Lebensgemeinschaften gefördert werden.</label>
+        {{ form.political_q_1 }}
+    </div>
+
+    <div class="mb-3">
+        <label for="political_q_2" class="form-label">Der gesetzliche Mindestlohn soll erhöht werden.</label>
+        {{ form.political_q_2 }}
+    </div>
+
+    <div class="mb-3">
+        <label for="political_q_3" class="form-label">Auf hohe Vermögen soll wieder eine Steuer erhoben werden.</label>
+        {{ form.political_q_3 }}
+    </div>
+
+    <div class="mb-3">
+        <label for="political_q_4" class="form-label">In Veröffentlichungen des Landes sollen Schreibweisen, die neben der männlichen und weiblichen auch andere Geschlechtsidentitäten abbilden, verboten werden.</label>
+        {{ form.political_q_4 }}
+    </div>
+
+    <div class="mb-3">
+        <label for="political_q_5" class="form-label">Das Land Brandenburg soll Frauenhäuser stärker finanziell unterstützen.</label>
+        {{ form.political_q_5 }}
+    </div>
+
+    <div class="mb-3">
+        <label for="political_q_6" class="form-label">Sozialwohnungen sollen vorrangig an Deutsche vergeben werden.</label>
+        {{ form.political_q_6 }}
+    </div>
+
+    <div class="mb-3">
+        <label for="political_q_7" class="form-label">Die EU soll sich dafür einsetzen, dass Schwangerschaftsabbrüche in allen Mitgliedstaaten straffrei möglich sind.</label>
+        {{ form.political_q_7 }}
+    </div>
+
+    <div class="mb-3">
+        <label for="political_q_8" class="form-label">Mehr Krankenhäuser sollen in öffentlicher Trägerschaft sein.</label>
+        {{ form.political_q_8 }}
+    </div>
+
+    <div class="mb-3">
+        <label for="political_q_9" class="form-label">Überschüsse im Bundeshaushalt sollen vorrangig zum Abbau von Schulden eingesetzt werden.</label>
+        {{ form.political_q_9 }}
+    </div>
+
+    <div class="mb-3">
+        <label for="political_q_10" class="form-label">Empfängerinnen und Empfängern von Bürgergeld, die Jobangebote ablehnen, sollen weiterhin Leistungen gekürzt werden können.</label>
+        {{ form.political_q_10 }}
+    </div>
+
+    {% next_button %}
+</form>
+{% endblock %}

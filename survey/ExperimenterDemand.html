@@ -1,0 +1,18 @@
+{% extends "global/Page.html" %}
+
+{{ block title }}Survey{{ endblock }}
+
+{% block content %}
+
+<p>
+    Was glauben Sie ist der Zweck dieses Experiments?
+</p>
+
+{% form.experiment_purpose %}
+
+<br>
+
+
+
+{{ next_button }}
+{% endblock %}

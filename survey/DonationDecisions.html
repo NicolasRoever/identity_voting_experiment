@@ -1,0 +1,76 @@
+{% extends "global/Page.html" %}
+
+{{ block title }}Survey{{ endblock }}
+
+{% block content %}
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .slider-container {
+            margin-bottom: 20px;
+        }
+        .slider-container label {
+            display: inline-block;
+            width: 50px;
+            margin-right: 10px;
+        }
+        .slider {
+            width: 300px;
+        }
+        .result {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+
+    <h1>Spendenentscheidung</h1>
+    <p>Sie können nun entscheiden, wie Sie 15 Euro aufteilen. Entweder auf die Parteien oder für sich selbst. Wir wählen 1% der Teilnehmer aus, deren Wahl implementiert wird.</p>
+
+    <div class="slider-container">
+        <label for="id_donation_spd">SPD:</label>
+        <input type="range" id="id_donation_spd" name="donation_spd" class="slider" min="0" max="15" value="{{ player.donation_spd }}" step="1">
+        <span id="spd-value">{{ player.donation_spd }}</span> €
+    </div>
+
+    <div class="slider-container">
+        <label for="id_donation_cdu">CDU:</label>
+        <input type="range" id="id_donation_cdu" name="donation_cdu" class="slider" min="0" max="15" value="{{ player.donation_cdu }}" step="1">
+        <span id="cdu-value">{{ player.donation_cdu }}</span> €
+    </div>
+
+    <div class="slider-container">
+        <label for="id_donation_afd">AfD:</label>
+        <input type="range" id="id_donation_afd" name="donation_afd" class="slider" min="0" max="15" value="{{ player.donation_afd }}" step="1">
+        <span id="afd-value">{{ player.donation_afd }}</span> €
+    </div>
+
+    <div class="result">
+        <p>Gesamtspenden: <span id="total-donations">15</span> €</p>
+        <p>Sie behalten für sich: <span id="money-kept">0</span> €</p>
+    </div>
+
+    <script src="{{static 'survey_functions.js' }}"></script>
+    <script>
+
+        // Check if updateValues is correctly imported
+        console.log('updateValues function:', typeof updateValues);
+        
+        const sliders = document.querySelectorAll('.slider');
+        const totalDonations = document.getElementById('total-donations');
+        const moneyKept = document.getElementById('money-kept');
+
+
+        sliders.forEach(slider => {
+            slider.addEventListener('input', () => updateValues(sliders, totalDonations, moneyKept));
+        });
+
+        updateValues(sliders, totalDonations, moneyKept);
+    </script>
+
+{{ next_button }}
+{% endblock %}
