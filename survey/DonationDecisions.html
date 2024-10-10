@@ -1,76 +1,128 @@
 {% extends "global/Page.html" %}
-
-{{ block title }}Survey{{ endblock }}
-
-{% block content %}
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .slider-container {
-            margin-bottom: 20px;
-        }
-        .slider-container label {
-            display: inline-block;
-            width: 50px;
-            margin-right: 10px;
-        }
-        .slider {
-            width: 300px;
-        }
-        .result {
-            font-weight: bold;
-            margin-top: 20px;
-        }
-    </style>
-
-    <h1>Spendenentscheidung</h1>
-    <p>Sie können nun entscheiden, wie Sie 15 Euro aufteilen. Entweder auf die Parteien oder für sich selbst. Wir wählen 1% der Teilnehmer aus, deren Wahl implementiert wird.</p>
-
-    <div class="slider-container">
-        <label for="id_donation_spd">SPD:</label>
-        <input type="range" id="id_donation_spd" name="donation_spd" class="slider" min="0" max="15" value="{{ player.donation_spd }}" step="1">
-        <span id="spd-value">{{ player.donation_spd }}</span> €
-    </div>
-
-    <div class="slider-container">
-        <label for="id_donation_cdu">CDU:</label>
-        <input type="range" id="id_donation_cdu" name="donation_cdu" class="slider" min="0" max="15" value="{{ player.donation_cdu }}" step="1">
-        <span id="cdu-value">{{ player.donation_cdu }}</span> €
-    </div>
-
-    <div class="slider-container">
-        <label for="id_donation_afd">AfD:</label>
-        <input type="range" id="id_donation_afd" name="donation_afd" class="slider" min="0" max="15" value="{{ player.donation_afd }}" step="1">
-        <span id="afd-value">{{ player.donation_afd }}</span> €
-    </div>
-
-    <div class="result">
-        <p>Gesamtspenden: <span id="total-donations">15</span> €</p>
-        <p>Sie behalten für sich: <span id="money-kept">0</span> €</p>
-    </div>
-
-    <script src="{{static 'survey_functions.js' }}"></script>
-    <script>
-
-        // Check if updateValues is correctly imported
-        console.log('updateValues function:', typeof updateValues);
-        
-        const sliders = document.querySelectorAll('.slider');
-        const totalDonations = document.getElementById('total-donations');
-        const moneyKept = document.getElementById('money-kept');
+{% load static %}
+{% block styles %}
 
 
-        sliders.forEach(slider => {
-            slider.addEventListener('input', () => updateValues(sliders, totalDonations, moneyKept));
-        });
 
-        updateValues(sliders, totalDonations, moneyKept);
-    </script>
+{% endblock %}
 
+{% block page_content %}
+<style>
+
+    .slider-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+    .slider-container label {
+        flex: 1;
+        margin-right: 15px;
+        font-size: 16px;
+    }
+    .slider-container input[type="range"] {
+        flex: 4;
+        appearance: none;
+        height: 8px;
+        background: #ddd;
+        border-radius: 5px;
+        outline: none;
+        margin-right: 15px;
+        transition: background 0.3s ease;
+    }
+    .slider-container input[type="range"]::-webkit-slider-thumb {
+        appearance: none;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: #4CAF50;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+    .slider-container input[type="range"]:hover {
+        background: #ccc;
+    }
+    .slider-container span {
+        flex: 1;
+        font-size: 16px;
+        font-weight: bold;
+    }
+    .result-container {
+        margin-top: 30px;
+        padding: 20px;
+        background-color: #f1f1f1;
+        border-radius: 10px;
+        text-align: right;
+        font-size: 18px;
+    }
+    .result-container p {
+        display: flex;
+        justify-content: space-between;
+        font-size: 18px;
+        margin: 10px 0;
+    }
+
+</style>
+
+<h1 style="text-align: right;">Spendenentscheidung</h1>
+<hr>
+<p>
+    Sie können nun entscheiden, wie Sie 15 Euro aufteilen. Sie können entweder an die Bundesverbände der Parteien AfD, CDU und SPD spenden, oder das Geld selbst behalten. Wir wählen 1% der Teilnehmer aus, deren Wahl implementiert wird.
+</p>
+
+<div class="slider-container">
+    <label for="id_donation_spd">SPD:</label>
+    <input type="range" id="id_donation_spd" name="donation_spd" class="slider" min="0" max="15" step="1" value="5">
+    <span id="spd-value">5 €</span>
+</div>
+{{formfield_errors 'donation_spd'}}
+
+<div class="slider-container">
+    <label for="id_donation_cdu">CDU:</label>
+    <input type="range" id="id_donation_cdu" name="donation_cdu" class="slider" min="0" max="15" step="1" value="5">
+    <span id="cdu-value">5 €</span>
+</div>
+{{formfield_errors 'donation_cdu'}}
+
+<div class="slider-container">
+    <label for="id_donation_afd">AfD:</label>
+    <input type="range" id="id_donation_afd" name="donation_afd" class="slider" min="0" max="15" step="1" value="5">
+    <span id="afd-value">5 €</span>
+</div>
+{{formfield_errors 'donation_afd'}}
+
+<div class="result-container">
+    <p>Gesamtspenden: <strong id="total-donations" class="right-aligned">15 €</strong></p>
+    <p>Sie behalten für sich: <strong id="money-kept" class="right-aligned">0 €</strong></p>
+</div>
+
+<br>
+<br>
+
+
+<script>
+    const sliders = document.querySelectorAll('.slider');
+    const totalDonations = document.getElementById('total-donations');
+    const moneyKept = document.getElementById('money-kept');
+    const totalAmount = 15; // The total amount to distribute
+
+
+    function updateValues(sliders, totalDonations, moneyKept) {
+    let totalSpent = 0;
+    sliders.forEach(slider => {
+        totalSpent += parseInt(slider.value);
+        document.getElementById(slider.id.replace('id_donation_', '') + '-value').textContent = slider.value + ' €';
+    });
+    totalDonations.textContent = totalSpent + ' €';
+        moneyKept.textContent = (totalAmount - totalSpent) + ' €';
+    }
+
+
+    sliders.forEach(slider => {
+        slider.addEventListener('input', () => updateValues(sliders, totalDonations, moneyKept));
+    });
+
+    updateValues(sliders, totalDonations, moneyKept);
+</script>
 {{ next_button }}
 {% endblock %}

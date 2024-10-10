@@ -1,4 +1,5 @@
 from otree.api import * 
+import itertools
 
 class C(BaseConstants):
     NAME_IN_URL = 'survey'
@@ -10,10 +11,6 @@ class C(BaseConstants):
         ('disagree', 'Stimme nicht zu')
     ]
 
-
-
-class Subsession(BaseSubsession):
-    pass
 
 
 class Group(BaseGroup):
@@ -95,32 +92,35 @@ class Player(BasePlayer):
 
     # Primer
 
-    cultural_primer_individual = models.LongStringField(blank=True)
-    cultural_primer_society = models.LongStringField(blank=True)
+    cultural_primer_individual = models.LongStringField()
+    cultural_primer_society = models.LongStringField()
+
+    word_count_individual = models.IntegerField()
+    word_count_society = models.IntegerField()
 
     # Politican Choices
 
-    frohmeier_name = models.StringField(blank=True)
-    frohmeier_statement = models.LongStringField(blank=True)
-    frohmeier_no_statement_choice = models.BooleanField(initial=False, blank=True)
+    frohmeier_name = models.StringField(blank=True, initial='')
+    frohmeier_statement = models.LongStringField(blank=True, initial='')
+    frohmeier_no_statement_choice = models.BooleanField( blank=True)
 
     muetzenich_name = models.StringField(blank=True)
     muetzenich_statement = models.LongStringField(blank=True)
-    muetzenich_no_statement_choice = models.BooleanField(initial=False, blank=True)
+    muetzenich_no_statement_choice = models.BooleanField( blank=True)
 
-    choice_muetzenich_frohmeier = models.FloatField(blank=True)
-    reason_choice_muetzenich_frohmeier = models.LongStringField(blank=True)
+    choice_muetzenich_frohmeier = models.FloatField()
+    reason_choice_muetzenich_frohmeier = models.LongStringField()
 
     wiener_name = models.StringField(blank=True)
     wiener_statement = models.LongStringField(blank=True)
-    wiener_no_statement_choice = models.BooleanField(initial=False, blank=True)
+    wiener_no_statement_choice = models.BooleanField(blank=True)
 
-    kraft_name = models.StringField(blank=True)
-    kraft_statement = models.LongStringField(blank=True)
-    kraft_no_statement_choice = models.BooleanField(initial=False, blank=True)
+    kraft_name = models.StringField(blank=True, initial='')
+    kraft_statement = models.LongStringField(blank=True, initial='')
+    kraft_no_statement_choice = models.BooleanField( blank=True)
 
-    choice_kraft_wiener = models.FloatField(blank=True)
-    reason_choice_kraft_wiener = models.LongStringField(blank=True)
+    choice_kraft_wiener = models.FloatField()
+    reason_choice_kraft_wiener = models.LongStringField()
 
     #Donation Decisions
 
@@ -129,16 +129,16 @@ class Player(BasePlayer):
     donation_spd = models.IntegerField(initial=5)
 
     # Mechnanism Question
-    issue_1_importance = models.IntegerField(initial=0)
-    issue_2_importance = models.IntegerField(initial=0)
-    issue_3_importance = models.IntegerField(initial=0)
-    issue_4_importance = models.IntegerField(initial=0)
-    issue_5_importance = models.IntegerField(initial=0)
-    issue_6_importance = models.IntegerField(initial=0)
-    issue_7_importance = models.IntegerField(initial=0)
-    issue_8_importance = models.IntegerField(initial=0)
-    issue_9_importance = models.IntegerField(initial=0)
-    issue_10_importance = models.IntegerField(initial=0)
+    issue_1_importance = models.IntegerField(initial=0, blank=True)
+    issue_2_importance = models.IntegerField(initial=0, blank=True)
+    issue_3_importance = models.IntegerField(initial=0, blank=True)
+    issue_4_importance = models.IntegerField(initial=0, blank=True)
+    issue_5_importance = models.IntegerField(initial=0, blank=True)
+    issue_6_importance = models.IntegerField(initial=0, blank=True)
+    issue_7_importance = models.IntegerField(initial=0, blank=True)
+    issue_8_importance = models.IntegerField(initial=0, blank=True)
+    issue_9_importance = models.IntegerField(initial=0, blank=True)
+    issue_10_importance = models.IntegerField(initial=0, blank=True)
 
     #Experimenter Demand Check
     experiment_purpose = models.LongStringField()
@@ -146,4 +146,16 @@ class Player(BasePlayer):
 
 
 # FUNCTIONS
+
+
+class Subsession(BaseSubsession):
+
+    def creating_session(subsession):
+        print("Creating session.")
+        treatments = itertools.cycle([True, False])
+        for player in subsession.get_players():
+            player.participant.vars['treatment'] = next(treatments)
+            player.participant.vars['progress'] = 1
+
+
 

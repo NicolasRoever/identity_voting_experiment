@@ -24,3 +24,16 @@ The participant can only click next, if all questions are answered.
 ## To-Dos
 
 - Make sure that you can deselct the radio buttons in the statement pages. 
+- Make sure to randomize all conceivable question orders??????
+- Program treatment and control and grouping. 
+- Make all possible checks so that participants enter exactly what you want. 
+- Check the thing on mobile devices.
+- Check on different browsers. 
+- Randomize the order of the politicians (this is another "treatment"), you need to make new videos here as well
+- Think about the flow of the survey again. And about the mechanism question (just do what Enke does)
+- Write the pre-analysis plan. 
+- I have the problem in Primer, that the text is not redisplayed if there was an error. 
+- Disable skipping the politician video 
+- Change number color to be 100 in the mechanism question.
+- Insert progress bar. 
+

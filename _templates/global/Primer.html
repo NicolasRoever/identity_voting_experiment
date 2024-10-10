@@ -1,0 +1,71 @@
+{% extends "global/Page.html" %}
+{% load static %}
+{% block styles %}
+
+
+
+{% endblock %}
+
+{% block page_content %}
+
+
+<div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 15px;">
+    <img src="{{ static picture_path }}" style="width: 100%; height: auto;">
+    <p style="margin-top: 10px; font-style: italic;">{{ picture_description }}</p>
+</div>
+
+
+
+<form method="post">
+    
+    <div class="form-group">
+        <label for="cultural_primer_individual">{{ question_individual }}
+        <br> Schreiben Sie mindestens 20 Wörter.</label>
+        <br>
+        <br>
+        <textarea id="cultural_primer_individual" name="cultural_primer_individual" class="form-control" rows="5" 
+            oninput="triggerWordCountUpdate('cultural_primer_individual', 'wordCounterPrimerIndividual'); sendTextInputToServer('cultural_primer_individual')" 
+            placeholder="Schreiben Sie hier Ihre Antwort..."></textarea>
+        <div class="word-counter" id="wordCounterPrimerIndividual" style="position: absolute; bottom: 2%; right: 2%; color: #888;">0 Wörter.</div>
+    </div>
+    {{ formfield_errors 'cultural_primer_individual' }}
+    <br>
+    <hr>
+
+    <div class="form-group">
+        <label for="cultural_primer_society">{{ question_society }}<br>Schreiben Sie mindestens 20 Wörter.</label>
+        <br>
+        <br>
+        <textarea id="cultural_primer_society" name="cultural_primer_society" class="form-control" rows="5" 
+            oninput="triggerWordCountUpdate('cultural_primer_society', 'wordCounterPrimerSociety'); sendTextInputToServer('cultural_primer_society')" 
+            placeholder="Schreiben Sie hier Ihre Antwort..."></textarea>
+        <div class="word-counter" id="wordCounterPrimerSociety" style="position: absolute; bottom: 2%; right: 2%; color: #888;">0 Wörter.</div>
+    </div>
+    {{ formfield_errors 'cultural_primer_society' }}
+    <br>
+    <hr>
+</form>
+
+
+
+
+{{ next_button }}
+
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script src="{{static 'survey_functions.js' }}"></script>
+
+<script>
+
+
+
+
+
+</script>
+
+
+{% endblock %}
