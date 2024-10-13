@@ -18,32 +18,22 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    age = models.IntegerField(label='What is your age?', min=13, max=125)
+
+    age = models.IntegerField(label='Wie alt sind Sie?', min=13, max=125)
+
+    consent_form = models.BooleanField(label='Ich habe die Teilnehmebedingungen gelesen und bin mit der Teilnahme einverstanden.', 
+        widget=widgets.CheckboxInput,
+        blank=False)
 
     gender = models.StringField(
-        choices=[['Male', 'Male'], ['Female', 'Female']],
-        label='What is your gender?',
+        choices=[['Male', 'Mann'], ['Female', 'Frau'], ['Other', 'Divers']],
+        label='Welches Geschlecht haben Sie?',
         widget=widgets.RadioSelect,
     )
-    crt_bat = models.IntegerField(
-        label='''
-        A bat and a ball cost 22 dollars in total.
-        The bat costs 20 dollars more than the ball.
-        How many dollars does the ball cost?'''
-    )
-    crt_widget = models.IntegerField(
-        label='''
-        If it takes 5 machines 5 minutes to make 5 widgets,
-        how many minutes would it take 100 machines to make 100 widgets?
-        '''
-    )
-    crt_lake = models.IntegerField(
-        label='''
-        In a lake, there is a patch of lily pads.
-        Every day, the patch doubles in size.
-        If it takes 48 days for the patch to cover the entire lake,
-        how many days would it take for the patch to cover half of the lake?
-        '''
+   
+    income = models.StringField(
+        choices=[['<1000', '<1000€'], ['1000-2000', '1000-2000€'], ['2000-3000', '2000-3000€'], ['3000-4000', '3000-4000€'], ['>4000', '>4000€']],
+        label='Wie hoch ist Ihr monatliches Nettoeinkommen?'
     )
 
     # Define the fields for each survey question
@@ -88,6 +78,10 @@ class Player(BasePlayer):
         choices=C.AGREE_OPTIONS,
         label="Empfängerinnen und Empfängern von Bürgergeld, die Jobangebote ablehnen, sollen weiterhin Leistungen gekürzt werden können.."
     )
+
+    slider_taxes = models.IntegerField(blank=True)
+    slider_gays = models.IntegerField(blank=True)
+    slider_old_people = models.IntegerField(blank=True)
 
 
     # Primer

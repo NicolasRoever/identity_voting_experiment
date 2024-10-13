@@ -9,8 +9,12 @@ class PlayerBot(Bot):
    
 
     def play_round(self):
-    
 
+        #---Consent---#
+
+        yield pages.Consent, {
+            'consent_form': True
+        }
 
         #---Political Opinions---#
 
@@ -34,13 +38,14 @@ class PlayerBot(Bot):
             "political_q_8": 'neutral',
             "political_q_9": 'disagree',
             "political_q_10": 'agree'
+
         }
 
         #Check that the answers were saved correctly
         expect(self.player.political_q_1, 'agree')
         expect(self.player.political_q_2, 'neutral')
 
-
+         
 
 
 
@@ -75,6 +80,28 @@ class PlayerBot(Bot):
             }
 
             expect(self.player.cultural_primer_individual, 'This is a sample response for the individual question.')
+
+        
+     #---Donation Question---#
+        
+        yield SubmissionMustFail(pages.DonationDecisions, {
+            'donation_afd': '1',
+            'donation_cdu': '10',
+            'donation_spd': '12'
+        })
+
+
+        yield pages.DonationDecisions, {
+            'donation_afd': '1',
+            'donation_cdu': '10',
+            'donation_spd': '4'
+        }
+
+        expect(self.player.donation_afd, 1)
+        expect(self.player.donation_cdu, 10)
+        expect(self.player.donation_spd, 4)
+
+
 
          #---PoliticiansAfDSPD---#
 
@@ -129,25 +156,7 @@ class PlayerBot(Bot):
         expect(self.player.kraft_no_statement_choice, True)
 
 
-        #---Donation Question---#
-        
-        yield SubmissionMustFail(pages.DonationDecisions, {
-            'donation_afd': '1',
-            'donation_cdu': '10',
-            'donation_spd': '12'
-        })
-
-
-        yield pages.DonationDecisions, {
-            'donation_afd': '1',
-            'donation_cdu': '10',
-            'donation_spd': '4'
-        }
-
-        expect(self.player.donation_afd, 1)
-        expect(self.player.donation_cdu, 10)
-        expect(self.player.donation_spd, 4)
-
+       
 
         #---Mechanism Question---#
 
@@ -178,6 +187,10 @@ class PlayerBot(Bot):
         expect(self.player.issue_6_importance, 10)
         expect(self.player.issue_7_importance, 0)
 
+        #---Estimation Question---#
+
+        yield pages.EstimationQuestion
+
         #---Experimenter Demand Check---#
 
         yield pages.ExperimenterDemand, {
@@ -185,4 +198,15 @@ class PlayerBot(Bot):
         }
 
         expect(self.player.experiment_purpose, 'This is a sample response for the experiment purpose question.')
+
+           #---Demographics---#
+
+        yield pages.Demographics, {
+            'age': 20,
+            'gender': 'Male',
+            'income': '1000-2000'
+        }
+    
+
+   
 

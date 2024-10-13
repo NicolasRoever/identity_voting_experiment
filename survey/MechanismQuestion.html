@@ -1,7 +1,11 @@
 {% extends "global/Page.html" %}
-{% load static %} 
+{% load static %}
 
-{% block content %}
+{% block page_content %}
+
+{{ include_sibling 'progress.html' }}
+
+<h1 style="text-align: left;">Themen bei Wahlentscheidung</h1>
 
 
 Betrachten Sie wieder die Statements, die Sie schon in der ersten Frage gesehen haben. Bitte geben Sie an, wie wichtig Ihnen diese Themen sind, wenn Sie die Wahlentscheidung treffen.

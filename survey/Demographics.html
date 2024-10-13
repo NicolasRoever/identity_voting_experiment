@@ -1,9 +1,12 @@
-{{ block title }}Survey{{ endblock }}
-{{ block content }}
+{% extends "global/Page.html" %}
+{% load static %}
 
-    <p>
-        Please answer the following questions.
-    </p>
+{% block page_content %}
+
+{{ include_sibling 'progress.html' }}
+
+
+<h1>Angaben zur Person</h1>
 
     {{ formfields }}
 

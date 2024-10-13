@@ -1,21 +1,52 @@
 {% extends "global/Page.html" %}
 {% load static %}
-{% block styles %}
-
-
-
-{% endblock %}
 
 {% block page_content %}
 
-
 {{ include_sibling 'progress.html' }}
 
+<style>
+    .mgslider-wrapper {
+        border-spacing: 10px;
+    }
+    .mgslider-show {
+        text-align: center;
+    }
+    .mgslider-limit {
+        width: 10%;
+        min-width: 75px;
+        height: 40px;
+        margin: 100px;
+        text-align: center;
+        background: #eee;
+        border: 1px solid #888;
+    }
+    .mgslider-limit, .mgslider-value {
+        font-variant-numeric: tabular-nums;
+    }
+    .mgslider-before {
+        height: 16px;
+        width: 100%;
+        background: #1e5bff;
+    }
+    .mgslider-feedback {
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+</style>
 
+
+
+<h1 style="text-align: left;">Weltanschauung</h1>
+
+<hr style="border: 1px solid black;">
 
 <h3>Bitte geben Sie Ihre Meinung zu den folgenden Aussagen ein:</h3>
 
-<hr style="border: 1px solid black;">
+<br>
+
+
 
 
 <form method="post">
@@ -90,8 +121,7 @@
 
     <hr>
 
-    {% next_button %}
-</form>
+  {{ next_button }}
 
 {% endblock %}
 

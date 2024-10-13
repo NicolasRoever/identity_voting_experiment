@@ -35,5 +35,11 @@ The participant can only click next, if all questions are answered.
 - I have the problem in Primer, that the text is not redisplayed if there was an error. 
 - Disable skipping the politician video 
 - Change number color to be 100 in the mechanism question.
-- Insert progress bar. 
-
+- Insert progress bar.
+- Add formfield errors to the politician decision page. 
+- Adjust the labels for Wiener Kraft
+- Decide where to put in the question of how many people are openly gay/homosexual in Germany (i.e. I want to show that I did not change beliefs about the world, but only salience of the issue. )
+- Think about social desirability bias
+- Wahrnehmung der Parteien sollte sich durch den Primer nicht ändern. 
+- Estimation Question bank=True fuer echte Survey rausnehmen. 
+- Desirability bias verbessern!

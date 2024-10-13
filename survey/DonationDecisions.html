@@ -1,12 +1,11 @@
 {% extends "global/Page.html" %}
 {% load static %}
-{% block styles %}
-
-
-
-{% endblock %}
 
 {% block page_content %}
+
+{{ include_sibling 'progress.html' }}
+
+
 <style>
 
     .slider-container {
@@ -64,10 +63,12 @@
 
 </style>
 
-<h1 style="text-align: right;">Spendenentscheidung</h1>
+<h1 style="text-align: left;"> Meinung zu Parteien </h1>
 <hr>
 <p>
-    Sie können nun entscheiden, wie Sie 15 Euro aufteilen. Sie können entweder an die Bundesverbände der Parteien AfD, CDU und SPD spenden, oder das Geld selbst behalten. Wir wählen 1% der Teilnehmer aus, deren Wahl implementiert wird.
+    Sie können nun entscheiden, wie Sie 15 Euro aufteilen. Sie können entweder an die Bundesverbände der Parteien nach aktuellen Umfragen populärsten Parteien spenden, oder das Geld selbst behalten. 
+    <br>
+    Wir wählen 1% der Studienteilnehmer aus, deren Wahl implementiert wird.
 </p>
 
 <div class="slider-container">

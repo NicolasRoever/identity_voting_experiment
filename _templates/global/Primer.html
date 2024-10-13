@@ -1,20 +1,16 @@
 {% extends "global/Page.html" %}
 {% load static %}
-{% block styles %}
-
-
-
-{% endblock %}
 
 {% block page_content %}
 
+{{ include 'survey/progress.html' }}
 
-<div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 15px;">
-    <img src="{{ static picture_path }}" style="width: 100%; height: auto;">
-    <p style="margin-top: 10px; font-style: italic;">{{ picture_description }}</p>
-</div>
+<h1 style="text-align: left;">Kulturelles Leben in Deutschland</h1>
 
+{{ text_event_description }}
 
+<br>
+<br>
 
 <form method="post">
     

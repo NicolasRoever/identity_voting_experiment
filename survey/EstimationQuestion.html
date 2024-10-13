@@ -1,0 +1,117 @@
+{% extends "global/Page.html" %}
+{% load static %}
+
+{% block page_content %}
+
+<style>
+   .mgslider-wrapper {
+       border-spacing: 10px;
+   }
+   .mgslider-show {
+       text-align: center;
+   }
+   .mgslider-limit {
+       width: 10%;
+       min-width: 75px;
+       height: 40px;
+       margin: 100px;
+       text-align: center;
+       background: #eee;
+       border: 1px solid #888;
+   }
+   .mgslider-limit, .mgslider-value {
+       font-variant-numeric: tabular-nums;
+   }
+   .mgslider-before {
+       height: 16px;
+       width: 100%;
+       background: #1e5bff;
+   }
+   .mgslider-feedback {
+       -webkit-user-select: none;
+       -ms-user-select: none;
+       user-select: none;
+   }
+</style>
+
+
+{{ include_sibling 'progress.html' }}
+
+<h1 style="text-align: left;">Schätzungen</h1>
+
+<br>
+
+
+<h3>Bitte geben Sie Ihre Schätzung zu den folgenden Fragen ein, indem Sie auf den Schieberegler klicken. Es ist wichtig, dass Sie ihre Schätzung angeben und die echte Zahl nicht nachschauen.</h3>
+
+<br>
+
+<div class="mb-3">
+   <br>
+   <label for="slider_taxes" class="form-label">Wie viel Prozent des Jahreseinkommens gibt ein durchschnittlicher Bürger in Deutschland als Steuern an den Staat?</label>
+   <br>
+   <div id="slider_taxes" style="width: 80%; margin: 0 auto;" name="slider_taxes"></div>
+</div>
+
+<hr>
+
+<div class="mb-3">
+   <br>
+   <label for="slider_gays" class="form-label">Wie viel Prozent der Bevölkerung in Deutschland lebt offen homosexuell?</label>
+   <br>
+   <div id="slider_gays" style="width: 80%; margin: 0 auto;" name="slider_gays"></div>
+</div>
+
+<hr>
+
+
+
+<div class="mb-3">
+   <br>
+   <label for="slider_old_people" class="form-label">Wie viel Prozent der Bevölkerung in Deutschland ist älter als 64?</label>
+   <br>
+   <div id="slider_old_people" style="width: 80%; margin: 0 auto;" name="slider_old_people"></div>
+</div> 
+
+<hr>
+
+
+
+{% next_button %}
+</form>
+
+<script src="{{ static 'mgslider.js' }}"></script>
+
+
+<script>
+$(document).ready(function (event) {
+   slider1 = new mgslider("slider_taxes", 0, 100, 1);
+   slider1.recall = true; // Optional line to remember value across errors
+   slider1.print(document.getElementById("slider_taxes"));
+
+});
+
+$(document).ready(function (event) {
+   slider1 = new mgslider("slider_gays", 0, 100, 1);
+   slider1.recall = true; // Optional line to remember value across errors
+   slider1.print(document.getElementById("slider_gays"));
+
+});
+
+$(document).ready(function (event) {
+   slider1 = new mgslider("slider_old_people", 0, 100, 1);
+   slider1.recall = true; // Optional line to remember value across errors
+   slider1.print(document.getElementById("slider_old_people"));
+
+});
+
+
+
+
+</script>
+
+{% endblock %}
+
+
+
+

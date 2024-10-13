@@ -4,21 +4,53 @@ import itertools
 from .python_functions import count_words_in_string
 
 
+class Consent(Page):
+    form_model = 'player'
+    form_fields = ['consent_form']
 
+
+class EndOfSurvey(Page):
+    pass
 
 
 class PoliticalOpinions(Page):
     form_model = 'player'
-    form_fields = ['political_q_1', 'political_q_2', 'political_q_3', 'political_q_4', 'political_q_5', 'political_q_6', 'political_q_7', 'political_q_8', 'political_q_9', 'political_q_10']
+    form_fields = ['political_q_1', 'political_q_2', 'political_q_3', 'political_q_4', 'political_q_5', 'political_q_6', 'political_q_7', 'political_q_8', 'political_q_9', 'political_q_10', ]
 
-     @staticmethod
-    def before_next_page(player, timeout_happened):
-        player.participant.progress += 1
+    def before_next_page(self):
+        self.participant.progress += 1
+
+    def vars_for_template(self):
+        return {
+            'progress_percentage': self.participant.progress / 8 * 100
+        }
+    
+class EstimationQuestion(Page):
+    form_model = 'player'
+    form_fields = ['slider_taxes', 'slider_gays', 'slider_old_people']
+
+    def before_next_page(self):
+        self.participant.progress += 1
+
+    def vars_for_template(self):
+        return {
+            'progress_percentage': self.participant.progress / 8 * 100
+        }
+
 
 
 class Demographics(Page):
     form_model = 'player'
-    form_fields = ['age', 'gender']
+    form_fields = ['age', 'gender', 'income']
+
+    def before_next_page(self):
+        self.participant.progress += 1
+
+    def vars_for_template(self):
+        return {
+            'progress_percentage': self.participant.progress / 8 * 100
+        }
+
 
 
 class PoliticiansAfDSPD(Page):
@@ -30,7 +62,8 @@ class PoliticiansAfDSPD(Page):
     def vars_for_template(self):
         return {
             'video_url': 'videos/Forhmaier_Muetzenich.mp4',
-            'politician_1': 'Rolf Muetzenich (SPD)',
+            'heading': 'Meinung zu Politikern (1/2)',
+            'politician_1': 'Rolf Mützenich (SPD)',
             'politician_1_name': 'muetzenich_name',
             'politician_1_statement': 'muetzenich_statement',
             'politician_1_no_statement_choice': 'muetzenich_no_statement_choice',
@@ -39,13 +72,17 @@ class PoliticiansAfDSPD(Page):
             'politician_2_statement': 'frohmeier_statement',
             'politician_2_no_statement_choice': 'frohmeier_no_statement_choice',
             'choice': 'choice_muetzenich_frohmeier',
-            'reason_choice': 'reason_choice_muetzenich_frohmeier'
+            'reason_choice': 'reason_choice_muetzenich_frohmeier', 
+            'progress_percentage': self.participant.progress / 8 * 100
         }
     
-    @staticmethod
-    def before_next_page(player, timeout_happened):
-        player.participant.progress += 1
+    def before_next_page(self):
+        self.participant.progress += 1
+
+
+
     
+
 class PoliticiansAfDCDU(Page):
     form_model = 'player'
     form_fields = ['choice_kraft_wiener', 'reason_choice_kraft_wiener', 'wiener_name', 'wiener_statement', 'wiener_no_statement_choice', 'kraft_name', 'kraft_statement', 'kraft_no_statement_choice']
@@ -55,31 +92,39 @@ class PoliticiansAfDCDU(Page):
     def vars_for_template(self):
         return {
             'video_url': 'videos/WernerKraft_KlausWiener.mp4',
-            'politician_1': 'Wiener',
+            'heading': 'Meinung zu Politikern (2/2)',
+            'politician_1': 'Klaus Wiener (CDU)',
             'politician_1_name': 'wiener_name',
             'politician_1_statement': 'wiener_statement',
             'politician_1_no_statement_choice': 'wiener_no_statement_choice',
-            'politician_2': 'Kraft',
+            'politician_2': 'Rainer Kraft (AfD)',
             'politician_2_name': 'kraft_name',
             'politician_2_statement': 'kraft_statement',
             'politician_2_no_statement_choice': 'kraft_no_statement_choice',
             'choice': 'choice_kraft_wiener',
-            'reason_choice': 'reason_choice_kraft_wiener'
+            'reason_choice': 'reason_choice_kraft_wiener', 
+             'progress_percentage': self.participant.progress / 8 * 100
         }
+    
+
+
     
    
     def error_message(self, values):
-        print(values)
+      
         if values.get('wiener_no_statement_choice') == None and values['wiener_statement'] == '':
             return 'Bitte geben Sie ein Statement für den Politiker Wiener ein oder wählen Sie "Ich möchte kein Statement schreiben".'
         
         if values["kraft_no_statement_choice"] == None and values["kraft_statement"] == '':
             return 'Bitte geben Sie ein Statement für den Politiker Kraft ein oder wählen Sie "Ich möchte kein Statement schreiben".'
         
-    @staticmethod
-    def before_next_page(player, timeout_happened):
-        player.participant.progress += 1
+    def before_next_page(self):
+        self.participant.progress += 1
+
+
         
+   
+
 
 
 class DonationDecisions(Page):
@@ -92,9 +137,16 @@ class DonationDecisions(Page):
         if values["donation_afd"] + values["donation_cdu"] + values["donation_spd"] > 15:
             return "Sie können maximal 15 Euro spenden."
         
-    @staticmethod
-    def before_next_page(player, timeout_happened):
-        player.participant.progress += 1
+    def before_next_page(self):
+        self.participant.progress += 1
+
+    def vars_for_template(self):
+        return {
+            'progress_percentage': self.participant.progress / 8 * 100
+        }
+
+        
+
     
 
 class MechanismQuestion(Page):
@@ -105,17 +157,31 @@ class MechanismQuestion(Page):
         if sum(values.values()) != 100:
             return "Die Summe der Punkte muss 100 ergeben."
         
-    @staticmethod
-    def before_next_page(player, timeout_happened):
-        player.participant.progress += 1
+    def before_next_page(self):
+        self.participant.progress += 1
+
+    def vars_for_template(self):
+        return {
+            'progress_percentage': self.participant.progress / 8 * 100
+        }
+
+        
+
 
 class ExperimenterDemand(Page):
     form_model = 'player'
     form_fields = ['experiment_purpose']
 
-    @staticmethod
-    def before_next_page(player, timeout_happened):
-        player.participant.progress += 1
+    def before_next_page(self):
+        self.participant.progress += 1
+
+    def vars_for_template(self):
+        return {
+            'progress_percentage': self.participant.progress / 8 * 100
+        }
+
+
+    
 
 
 class PrimerTreatment(Page):
@@ -130,6 +196,8 @@ class PrimerTreatment(Page):
             'picture_description': "Christopher Street Day 2023 in Köln", 
             'question_individual': "Nehmen Sie am Christopher Street Day in ihrer Nähe teil? Wenn ja, warum? Wenn nein, warum nicht?",
             'question_society': "Wie wichtig sind ihrer Meinung nach Veranstaltungen wie der Christopher Street Day für unsere Gesellschaft?", 
+            'text_event_description': "Der Christopher Street Day findet jährlich in vielen Städten statt. Er erinnert an die Stonewall-Aufstände von 1969, die den Beginn der modernen LGBTQ+-Bewegung markieren. Der CSD setzt ein Zeichen gegen Diskriminierung und für Akzeptanz und Vielfalt.",
+            'progress_percentage': self.participant.progress / 8 * 100
         }
     
     @staticmethod
@@ -148,10 +216,15 @@ class PrimerTreatment(Page):
     def is_displayed(player):
         return player.participant.treatment == True
     
-    @staticmethod
-    def before_next_page(player, timeout_happened):
-        player.participant.progress += 1
+    
+    def before_next_page(self):
+        self.participant.progress += 1
 
+
+
+    
+        
+    
 
 
    # def error_message(self, values):
@@ -179,6 +252,8 @@ class PrimerActiveControl(Page):
             'picture_description': "Karneval 2023 in Köln", 
             'question_individual': "Nehmen Sie am Karneval/Fasching in ihrer Nähe teil? Wenn ja, warum? Wenn nein, warum nicht?",
             'question_society': "Wie wichtig sind ihrer Meinung nach Veranstaltungen wie der Karneval/Fasching für unsere Gesellschaft?", 
+            'text_event_description': "Der Karneval ist ein Fest, das in vielen Städten jährlich stattfindet. Er erinnert an historische Traditionen und Bräuche und entstand ursprünglich als Fest vor Beginn der Fastenzeit. Der Karneval setzt ein Zeichen für Lebensfreude und Gemeinschaft.",
+            'progress_percentage': self.participant.progress / 8 * 100
 
 
         }
@@ -188,10 +263,10 @@ class PrimerActiveControl(Page):
         # Handle the data sent from the client
         pass
 
-    @staticmethod
-    def before_next_page(player, timeout_happened):
-        player.participant.progress += 1
+ 
+
+    
 
 
-page_sequence = [ PoliticalOpinions, PrimerActiveControl, PrimerTreatment, PoliticiansAfDSPD,PoliticiansAfDCDU, DonationDecisions, 
-                    MechanismQuestion, ExperimenterDemand, ]
+page_sequence = [  Consent, PoliticalOpinions,  PrimerActiveControl, PrimerTreatment,DonationDecisions, PoliticiansAfDSPD, PoliticiansAfDCDU, 
+                    MechanismQuestion, EstimationQuestion, ExperimenterDemand, Demographics, EndOfSurvey ]

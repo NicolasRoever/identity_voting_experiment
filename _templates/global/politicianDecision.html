@@ -1,17 +1,25 @@
-{{ extends "global/Page.html" }}
+{% extends "global/Page.html" %}
+{% load static %}
+
+{% block page_content %}
+
+{{ include 'survey/progress.html' }}
+
+<h1 style="text-align: left;">{{ heading }}</h1>
 
 
-{{ block content }}
 
 <p>
     Bitte schauen Sie sich folgende Ausschnitte aus einer Bundestagsdebatte an, indem Sie auf den Play-Button klicken. Nach Ende des Videos erscheinen Fragen unter dem Video. 
 </p>
+
 
 <div class="video-container">
 <video width="100%" id="politicians_video" controls>
     <source src="{{ static video_url }}" type="video/mp4">
     Ihr Browser unterstützt das Video-Tag nicht.
 </video>
+
 <hr>
 </div>
 
@@ -36,6 +44,9 @@
             </div>
         </div>
     </div>
+
+
+
     <br>
     <br>
     <p>
@@ -44,6 +55,20 @@
     
     <div style="width: 80%; margin: 0 auto;">
         <textarea class="form-control" id="{{ reason_choice }}" name="{{ reason_choice }}" rows="3"></textarea>
+    </div>
+
+    <div id="error-section">
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                <ul>
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <li>{{ field }}: {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
     </div>
 
     <hr>
@@ -108,21 +133,24 @@
 
 
 <script>
-
-
     document.addEventListener('DOMContentLoaded', function () {
         var video = document.getElementById('politicians_video');
         var extraContent = document.getElementById('extraContent');
 
-        
+        // Check if the video has been played before
+        if (localStorage.getItem('videoPlayed') === 'true') {
+            extraContent.style.display = 'block';
+            video.currentTime = video.duration; // Set video to end
+        }
+
         // Add an event listener to detect when the video ends
         video.addEventListener('ended', function () {
             // Show the content after the video ends
             extraContent.style.display = 'block';
+            // Set a flag in localStorage to remember the video has been played
+            localStorage.setItem('videoPlayed', 'true');
         });
     });
-
-
 </script>
 
 
