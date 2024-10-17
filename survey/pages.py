@@ -1,6 +1,7 @@
 from otree.api import *
 import itertools
 import time
+import random
 
 from .python_functions import count_words_in_string
 
@@ -142,9 +143,17 @@ class DonationDecisions(Page):
         self.player.time_after_donation_decisions = time.time()
 
     def vars_for_template(self):
-        return {
-            'progress_percentage': self.participant.progress / 8 * 100
-        }
+
+        # Define the sliders and shuffle them
+        sliders = [
+            {'name': 'donation_spd', 'label': 'SPD', 'value': 5},
+            {'name': 'donation_cdu', 'label': 'CDU', 'value': 5},
+            {'name': 'donation_afd', 'label': 'AfD', 'value': 5},
+        ]
+        random.shuffle(sliders)  # Randomize the order for each player
+
+        return {'sliders': sliders, 
+                'progress_percentage': self.participant.progress / 8 * 100}
 
         
 
@@ -204,14 +213,10 @@ class PrimerTreatment(Page):
     @staticmethod
     def live_method(player, data):
 
-        if data.get('formfieldName') == 'cultural_primer_individual':
+        if data.get('formfieldName') == 'cultural_primer':
             words_in_individual_data = count_words_in_string(data.get('input', ''))
             player.word_count_individual = words_in_individual_data
 
-
-        if data.get('formfieldName') == 'cultural_primer_society':
-            words_in_society_data = count_words_in_string(data.get('input', ''))
-            player.word_count_society = words_in_society_data
 
 
     def is_displayed(player):
@@ -252,14 +257,13 @@ class ClosenessToParty(Page):
 
 class PrimerActiveControl(Page):
     form_model = 'player'
-    form_fields = ['cultural_primer_individual', 'cultural_primer_society']
+    form_fields = ['cultural_primer']
 
     template_name = 'global/Primer.html'
 
     def is_displayed(player):
         return player.participant.treatment == False
 
-    
 
     def vars_for_template(self):
         return {
@@ -286,4 +290,4 @@ class PrimerActiveControl(Page):
     
 
 
-page_sequence = [  Consent,  PrimerActiveControl, PrimerTreatment,DonationDecisions, ClosenessToParty, EndOfSurvey ]
+page_sequence = [DonationDecisions, ClosenessToParty,  Consent,  PrimerActiveControl, PrimerTreatment, EndOfSurvey ]

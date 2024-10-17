@@ -66,9 +66,9 @@
 <h1 style="text-align: left;"> Meinung zu Parteien </h1>
 <hr>
 <p>
-    Sie können nun entscheiden, wie Sie 15 Euro aufteilen. Sie können entweder an die Bundesverbände der Parteien nach aktuellen Umfragen populärsten Parteien spenden, oder das Geld selbst behalten. 
+    Sie können nun entscheiden, wie Sie 15 Euro aufteilen würden. Sie können entweder an die Bundesverbände der Parteien nach aktuellen Umfragen populärsten Parteien spenden, oder das Geld selbst behalten. 
     <br>
-    Wir wählen 1% der Studienteilnehmer aus und setzen deren Entscheidungen um.
+    Wir wählen 1% der Studienteilnehmer aus und setzen deren Entscheidungen um. 
 </p>
 
 <div class="slider-container">
@@ -99,6 +99,12 @@
 
 <br>
 <br>
+
+{% for slider in sliders %}
+
+    {{slider.name}}
+
+{% endfor %}
 
 
 <script>

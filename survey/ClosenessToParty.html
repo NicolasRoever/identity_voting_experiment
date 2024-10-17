@@ -1,0 +1,119 @@
+{% extends "global/Page.html" %}
+{% load static %}
+
+{% block page_content %}
+
+<style>
+   .mgslider-wrapper {
+       border-spacing: 10px;
+   }
+   .mgslider-show {
+       text-align: center;
+   }
+   .mgslider-limit {
+       width: 10%;
+       min-width: 75px;
+       height: 40px;
+       margin: 100px;
+       text-align: center;
+       background: #eee;
+       border: 1px solid #888;
+   }
+   .mgslider-limit, .mgslider-value {
+       font-variant-numeric: tabular-nums;
+   }
+   .mgslider-before {
+       height: 16px;
+       width: 100%;
+       background: #1e5bff;
+   }
+   .mgslider-feedback {
+       -webkit-user-select: none;
+       -ms-user-select: none;
+       user-select: none;
+   }
+</style>
+
+
+{{ include_sibling 'progress.html' }}
+
+<h1 style="text-align: left;">Parteinähe</h1>
+
+<br>
+
+
+<p>Bitte geben Sie an, wie nah Sie sich politisch zu den folgenden Parteien fühlen. 100 bedeutet, dass Sie sich sehr stark mit der Partei identifizieren, 0 bedeutet, dass Sie sich überhaupt nicht mit der Partei identifizieren.</p>
+
+
+<br>
+
+   <hr>
+<div class="mb-3">
+   <br>
+   <label for="slider_spd" class="form-label"><strong>SPD</strong></label>
+   <br>
+   <div id="slider_spd" style="width: 80%; margin: 0 auto;" name="slider_spd"></div>
+</div>
+
+<hr>
+
+<div class="mb-3">
+   <br>
+   <label for="slider_cdu" class="form-label"><strong>CDU</strong></label>
+   <br>
+   <div id="slider_cdu" style="width: 80%; margin: 0 auto;" name="slider_cdu"></div>
+</div>
+
+<hr>
+
+
+
+<div class="mb-3">
+   <br>
+   <label for="slider_afd" class="form-label"><strong>AfD</strong></label>
+   <br>
+   <div id="slider_afd" style="width: 80%; margin: 0 auto;" name="slider_afd"></div>
+</div> 
+
+<hr>
+
+
+
+{% next_button %}
+</form>
+
+<script src="{{ static 'mgslider.js' }}"></script>
+
+
+<script>
+$(document).ready(function (event) {
+   slider1 = new mgslider("slider_spd", 0, 100, 1);
+   slider1.recall = true; // Optional line to remember value across errors
+   slider1.print(document.getElementById("slider_spd"));
+
+});
+
+$(document).ready(function (event) {
+   slider1 = new mgslider("slider_cdu", 0, 100, 1);
+   slider1.recall = true; // Optional line to remember value across errors
+   slider1.print(document.getElementById("slider_cdu"));
+
+});
+
+$(document).ready(function (event) {
+   slider1 = new mgslider("slider_afd", 0, 100, 1);
+   slider1.recall = true; // Optional line to remember value across errors
+   slider1.print(document.getElementById("slider_afd"));
+
+});
+
+
+
+
+</script>
+
+{% endblock %}
+
+
+
+

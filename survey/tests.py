@@ -26,7 +26,7 @@ class PlayerBot(Bot):
                 'cultural_primer': 'This is a sample response for the individual question.'
             }
 
-            expect(self.player.cultural_primer_individual, 'This is a sample response for the individual question.')
+            expect(self.player.cultural_primer, 'This is a sample response for the individual question.')
 
         else:
             
@@ -60,11 +60,6 @@ class PlayerBot(Bot):
 
         #---Closeness to Party---#
 
-        yield pages.ClosenessToParty, {
-            'slider_spd': '100',
-            'slider_cdu': '100',
-            'slider_afd': '100'
-        }
 
     
 

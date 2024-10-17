@@ -143,6 +143,7 @@ class Player(BasePlayer):
 
     #Time Spent
     time_after_consent = models.FloatField()
+    time_after_closeness_to_party = models.FloatField()
     time_after_political_opinions = models.FloatField()
     time_after_primer = models.FloatField()
     time_after_politician_choice_afd_spd = models.FloatField()

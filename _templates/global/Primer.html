@@ -15,14 +15,14 @@
 <form method="post">
     
     <div class="form-group">
-        <label for="cultural_primer_individual">{{ question_primer }}
+        <label for="cultural_primer">{{ question_primer }}
         <br> Schreiben Sie mindestens 20 Wörter.</label>
         <br>
         <br>
-        <textarea id="cultural_primer_individual" name="cultural_primer_individual" class="form-control" rows="5" 
-            oninput="triggerWordCountUpdate('cultural_primer_individual', 'wordCounterPrimerIndividual'); sendTextInputToServer('cultural_primer_individual')" 
+        <textarea id="cultural_primer" name="cultural_primer" class="form-control" rows="5" 
+            oninput="triggerWordCountUpdate('cultural_primer', 'wordCounterPrimer'); sendTextInputToServer('cultural_primer')" 
             placeholder="Schreiben Sie hier Ihre Antwort..."></textarea>
-        <div class="word-counter" id="wordCounterPrimerIndividual" style="position: absolute; bottom: 2%; right: 2%; color: #888;">0 Wörter.</div>
+        <div class="word-counter" id="wordCounterPrimer" style="position: absolute; bottom: 2%; right: 2%; color: #888;">0 Wörter.</div>
     </div>
     {{ formfield_errors 'cultural_primer' }}
     <br>
