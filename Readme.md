@@ -25,21 +25,25 @@ The participant can only click next, if all questions are answered.
 
 - Make sure that you can deselct the radio buttons in the statement pages. 
 - Make sure to randomize all conceivable question orders??????
-- Program treatment and control and grouping. 
 - Make all possible checks so that participants enter exactly what you want. 
 - Check the thing on mobile devices.
 - Check on different browsers. 
 - Randomize the order of the politicians (this is another "treatment"), you need to make new videos here as well
-- Think about the flow of the survey again. And about the mechanism question (just do what Enke does)
-- Write the pre-analysis plan. 
 - I have the problem in Primer, that the text is not redisplayed if there was an error. 
-- Disable skipping the politician video 
-- Change number color to be 100 in the mechanism question.
-- Insert progress bar.
-- Add formfield errors to the politician decision page. 
-- Adjust the labels for Wiener Kraft
-- Decide where to put in the question of how many people are openly gay/homosexual in Germany (i.e. I want to show that I did not change beliefs about the world, but only salience of the issue. )
-- Think about social desirability bias
 - Wahrnehmung der Parteien sollte sich durch den Primer nicht ändern. 
 - Estimation Question bank=True fuer echte Survey rausnehmen. 
 - Desirability bias verbessern!
+- Beium zweiten Video erscheinen die Fragen schon vor Ende. 
+
+## Server Commands
+
+These are the commands for the university server we are using to run the experiment.
+
+- Remember that you need to be one folder above bargaining_experiment when you do the rsync command
+
+- This command deletes the current project: 
+
+> rsync --delete -Pa bargaining_experiment  otree15@otree2.uni-koeln.de:Projects/
+
+-  This command starts the server
+> ssh otree15@otree2.uni-koeln.de

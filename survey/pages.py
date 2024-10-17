@@ -1,5 +1,6 @@
 from otree.api import *
 import itertools
+import time
 
 from .python_functions import count_words_in_string
 
@@ -7,6 +8,8 @@ from .python_functions import count_words_in_string
 class Consent(Page):
     form_model = 'player'
     form_fields = ['consent_form']
+    def before_next_page(self):
+        self.player.time_after_consent = time.time() 
 
 
 class EndOfSurvey(Page):
@@ -19,6 +22,7 @@ class PoliticalOpinions(Page):
 
     def before_next_page(self):
         self.participant.progress += 1
+        self.player.time_after_political_opinions = time.time()
 
     def vars_for_template(self):
         return {
@@ -31,7 +35,7 @@ class EstimationQuestion(Page):
 
     def before_next_page(self):
         self.participant.progress += 1
-
+        self.player.time_after_estimation_question = time.time()
     def vars_for_template(self):
         return {
             'progress_percentage': self.participant.progress / 8 * 100
@@ -45,7 +49,7 @@ class Demographics(Page):
 
     def before_next_page(self):
         self.participant.progress += 1
-
+        self.player.time_after_demographics = time.time()
     def vars_for_template(self):
         return {
             'progress_percentage': self.participant.progress / 8 * 100
@@ -78,7 +82,7 @@ class PoliticiansAfDSPD(Page):
     
     def before_next_page(self):
         self.participant.progress += 1
-
+        self.player.time_after_politician_choice_afd_spd = time.time()
 
 
     
@@ -106,10 +110,6 @@ class PoliticiansAfDCDU(Page):
              'progress_percentage': self.participant.progress / 8 * 100
         }
     
-
-
-    
-   
     def error_message(self, values):
       
         if values.get('wiener_no_statement_choice') == None and values['wiener_statement'] == '':
@@ -120,7 +120,7 @@ class PoliticiansAfDCDU(Page):
         
     def before_next_page(self):
         self.participant.progress += 1
-
+        self.player.time_after_politician_choice_afd_cdu = time.time()
 
         
    
@@ -139,6 +139,7 @@ class DonationDecisions(Page):
         
     def before_next_page(self):
         self.participant.progress += 1
+        self.player.time_after_donation_decisions = time.time()
 
     def vars_for_template(self):
         return {
@@ -159,7 +160,7 @@ class MechanismQuestion(Page):
         
     def before_next_page(self):
         self.participant.progress += 1
-
+        self.player.time_after_mechanism_question = time.time()
     def vars_for_template(self):
         return {
             'progress_percentage': self.participant.progress / 8 * 100
@@ -174,7 +175,7 @@ class ExperimenterDemand(Page):
 
     def before_next_page(self):
         self.participant.progress += 1
-
+        self.player.time_after_experimenter_demand = time.time()
     def vars_for_template(self):
         return {
             'progress_percentage': self.participant.progress / 8 * 100
@@ -186,7 +187,7 @@ class ExperimenterDemand(Page):
 
 class PrimerTreatment(Page):
     form_model = 'player'
-    form_fields = ['cultural_primer_individual', 'cultural_primer_society']
+    form_fields = ['cultural_primer']
 
     template_name = 'global/Primer.html'
 
@@ -194,9 +195,9 @@ class PrimerTreatment(Page):
         return {
             'picture_path': 'images/CSD.jpeg',
             'picture_description': "Christopher Street Day 2023 in Köln", 
-            'question_individual': "Nehmen Sie am Christopher Street Day in ihrer Nähe teil? Wenn ja, warum? Wenn nein, warum nicht?",
+            'question_primer': "Welche Emotionen verbinden Sie mit dem Christopher Street Day? Wie wichtig halten Sie den Christopher Street Day für unsere Gesellschaft?",
             'question_society': "Wie wichtig sind ihrer Meinung nach Veranstaltungen wie der Christopher Street Day für unsere Gesellschaft?", 
-            'text_event_description': "Der Christopher Street Day findet jährlich in vielen Städten statt. Er erinnert an die Stonewall-Aufstände von 1969, die den Beginn der modernen LGBTQ+-Bewegung markieren. Der CSD setzt ein Zeichen gegen Diskriminierung und für Akzeptanz und Vielfalt.",
+            'text_event_description': "Der Christopher Street Day findet jährlich in vielen Städten statt. Er erinnert an die Stonewall-Aufstände von 1969, die den Beginn der modernen LGBTQ+-Bewegung markieren. Der Politiker Karl Mandl  (CDU) beschreibt das Fest in Köln so: 'Köln steht für Selbstbewusstsein und Toleranz. Mit dem CSD feiert sich die Stadt daher auch selbst. Es ist mir eine Herzensangelegenheit, an diesem fröhlichen und friedlichen Fest teilnehmen zu können.'",
             'progress_percentage': self.participant.progress / 8 * 100
         }
     
@@ -219,6 +220,7 @@ class PrimerTreatment(Page):
     
     def before_next_page(self):
         self.participant.progress += 1
+        self.player.time_after_primer = time.time()
 
 
 
@@ -235,6 +237,19 @@ class PrimerTreatment(Page):
 
  
 
+class ClosenessToParty(Page):
+    form_model = 'player'
+    form_fields = ['slider_spd', 'slider_cdu', 'slider_afd']
+
+    def before_next_page(self):
+        self.participant.progress += 1
+        self.player.time_after_closeness_to_party = time.time()
+
+    def vars_for_template(self):
+        return {
+            'progress_percentage': self.participant.progress / 8 * 100
+        }
+
 class PrimerActiveControl(Page):
     form_model = 'player'
     form_fields = ['cultural_primer_individual', 'cultural_primer_society']
@@ -250,11 +265,10 @@ class PrimerActiveControl(Page):
         return {
             'picture_path': 'images/karneval.jpg',
             'picture_description': "Karneval 2023 in Köln", 
-            'question_individual': "Nehmen Sie am Karneval/Fasching in ihrer Nähe teil? Wenn ja, warum? Wenn nein, warum nicht?",
+            'question_primer': "Welche Emotionen verbinden Sie mit dem Karneval? Wie wichtig halten Sie den Karneval für unsere Gesellschaft?",
             'question_society': "Wie wichtig sind ihrer Meinung nach Veranstaltungen wie der Karneval/Fasching für unsere Gesellschaft?", 
-            'text_event_description': "Der Karneval ist ein Fest, das in vielen Städten jährlich stattfindet. Er erinnert an historische Traditionen und Bräuche und entstand ursprünglich als Fest vor Beginn der Fastenzeit. Der Karneval setzt ein Zeichen für Lebensfreude und Gemeinschaft.",
+            'text_event_description': "Der Karneval ist ein Fest, das in vielen Städten jährlich stattfindet. Er erinnert an historische Traditionen und Bräuche und entstand ursprünglich als Fest vor Beginn der Fastenzeit. Der Politiker Klaus Mandel (CDU) beschreibt das Fest so: 'Das Brauchtum und unsere Karnevalsgesellschaften sind für das Zusammenleben der Generationen sehr wichtig. Karneval hat die Kraft zu verbinden und Menschen mitzunehmen.'",
             'progress_percentage': self.participant.progress / 8 * 100
-
 
         }
     
@@ -263,10 +277,13 @@ class PrimerActiveControl(Page):
         # Handle the data sent from the client
         pass
 
+    def before_next_page(self):
+        self.participant.progress += 1
+        self.player.time_after_primer = time.time()
+
  
 
     
 
 
-page_sequence = [  Consent, PoliticalOpinions,  PrimerActiveControl, PrimerTreatment,DonationDecisions, PoliticiansAfDSPD, PoliticiansAfDCDU, 
-                    MechanismQuestion, EstimationQuestion, ExperimenterDemand, Demographics, EndOfSurvey ]
+page_sequence = [  Consent,  PrimerActiveControl, PrimerTreatment,DonationDecisions, ClosenessToParty, EndOfSurvey ]

@@ -86,11 +86,15 @@ class Player(BasePlayer):
 
     # Primer
 
-    cultural_primer_individual = models.LongStringField()
-    cultural_primer_society = models.LongStringField()
+    cultural_primer = models.LongStringField()
 
     word_count_individual = models.IntegerField()
     word_count_society = models.IntegerField()
+
+    # Political Closeness
+    slider_spd = models.IntegerField(blank=True)
+    slider_cdu = models.IntegerField(blank=True)
+    slider_afd = models.IntegerField(blank=True)
 
     # Politican Choices
 
@@ -136,6 +140,19 @@ class Player(BasePlayer):
 
     #Experimenter Demand Check
     experiment_purpose = models.LongStringField()
+
+    #Time Spent
+    time_after_consent = models.FloatField()
+    time_after_political_opinions = models.FloatField()
+    time_after_primer = models.FloatField()
+    time_after_politician_choice_afd_spd = models.FloatField()
+    time_after_politician_choice_afd_cdu = models.FloatField()
+    time_after_donation_decisions = models.FloatField()
+    time_after_mechanism_question = models.FloatField()
+    time_after_estimation_question = models.FloatField()
+    time_after_experimenter_demand = models.FloatField()
+    time_after_demographics = models.FloatField()
+    time_after_end_of_survey = models.FloatField()
 
 
 
