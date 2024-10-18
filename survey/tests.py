@@ -3,11 +3,16 @@ from . import pages
 
 
 
-
-
 class PlayerBot(Bot):
 
     def play_round(self):
+
+        #---Prolific ID---#
+
+        yield pages.ProlificID, {
+            'prolific_id': '1234567890'
+        }
+
 
          #---Consent---#
 

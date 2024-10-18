@@ -23,16 +23,14 @@ The participant can only click next, if all questions are answered.
 
 ## To-Dos
 
+- Make sure consent form is correct
 - Make sure that you can deselct the radio buttons in the statement pages. 
-- Make sure to randomize all conceivable question orders??????
-- Make all possible checks so that participants enter exactly what you want. 
 - Check the thing on mobile devices.
 - Check on different browsers. 
 - Randomize the order of the politicians (this is another "treatment"), you need to make new videos here as well
 - I have the problem in Primer, that the text is not redisplayed if there was an error. 
 - Wahrnehmung der Parteien sollte sich durch den Primer nicht ändern. 
 - Estimation Question bank=True fuer echte Survey rausnehmen. 
-- Desirability bias verbessern!
 - Beium zweiten Video erscheinen die Fragen schon vor Ende. 
 
 ## Server Commands

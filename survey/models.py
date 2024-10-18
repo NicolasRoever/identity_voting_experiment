@@ -20,6 +20,7 @@ class Group(BaseGroup):
 class Player(BasePlayer):
 
     age = models.IntegerField(label='Wie alt sind Sie?', min=13, max=125)
+    prolific_id = models.CharField(label='Bitte geben Sie hier Ihre Prolific ID ein: ', blank=True)
 
     consent_form = models.BooleanField(label='Ich habe die Teilnehmebedingungen gelesen und bin mit der Teilnahme einverstanden.', 
         widget=widgets.CheckboxInput,
@@ -142,18 +143,18 @@ class Player(BasePlayer):
     experiment_purpose = models.LongStringField()
 
     #Time Spent
-    time_after_consent = models.FloatField()
-    time_after_closeness_to_party = models.FloatField()
-    time_after_political_opinions = models.FloatField()
-    time_after_primer = models.FloatField()
-    time_after_politician_choice_afd_spd = models.FloatField()
-    time_after_politician_choice_afd_cdu = models.FloatField()
-    time_after_donation_decisions = models.FloatField()
-    time_after_mechanism_question = models.FloatField()
-    time_after_estimation_question = models.FloatField()
-    time_after_experimenter_demand = models.FloatField()
-    time_after_demographics = models.FloatField()
-    time_after_end_of_survey = models.FloatField()
+    time_after_consent = models.StringField()
+    time_after_closeness_to_party = models.StringField()
+    time_after_political_opinions = models.StringField()
+    time_after_primer = models.StringField()
+    time_after_politician_choice_afd_spd = models.StringField()
+    time_after_politician_choice_afd_cdu = models.StringField()
+    time_after_donation_decisions = models.StringField()
+    time_after_mechanism_question = models.StringField()
+    time_after_estimation_question = models.StringField()
+    time_after_experimenter_demand = models.StringField()
+    time_after_demographics = models.StringField()
+    time_after_end_of_survey = models.StringField()
 
 
 
@@ -168,6 +169,7 @@ class Subsession(BaseSubsession):
         for player in subsession.get_players():
             player.participant.vars['treatment'] = next(treatments)
             player.participant.vars['progress'] = 1
+
 
 
 

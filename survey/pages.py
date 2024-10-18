@@ -2,6 +2,7 @@ from otree.api import *
 import itertools
 import time
 import random
+from datetime import datetime
 
 from .python_functions import count_words_in_string
 
@@ -10,7 +11,11 @@ class Consent(Page):
     form_model = 'player'
     form_fields = ['consent_form']
     def before_next_page(self):
-        self.player.time_after_consent = time.time() 
+        self.player.time_after_consent = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+class ProlificID(Page):
+    form_model = 'player'
+    form_fields = ['prolific_id']
 
 
 class EndOfSurvey(Page):
@@ -23,7 +28,7 @@ class PoliticalOpinions(Page):
 
     def before_next_page(self):
         self.participant.progress += 1
-        self.player.time_after_political_opinions = time.time()
+        self.player.time_after_political_opinions = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     def vars_for_template(self):
         return {
@@ -36,7 +41,7 @@ class EstimationQuestion(Page):
 
     def before_next_page(self):
         self.participant.progress += 1
-        self.player.time_after_estimation_question = time.time()
+        self.player.time_after_estimation_question = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     def vars_for_template(self):
         return {
             'progress_percentage': self.participant.progress / 8 * 100
@@ -50,7 +55,7 @@ class Demographics(Page):
 
     def before_next_page(self):
         self.participant.progress += 1
-        self.player.time_after_demographics = time.time()
+        self.player.time_after_demographics = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     def vars_for_template(self):
         return {
             'progress_percentage': self.participant.progress / 8 * 100
@@ -83,7 +88,7 @@ class PoliticiansAfDSPD(Page):
     
     def before_next_page(self):
         self.participant.progress += 1
-        self.player.time_after_politician_choice_afd_spd = time.time()
+        self.player.time_after_politician_choice_afd_spd = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
     
@@ -121,7 +126,7 @@ class PoliticiansAfDCDU(Page):
         
     def before_next_page(self):
         self.participant.progress += 1
-        self.player.time_after_politician_choice_afd_cdu = time.time()
+        self.player.time_after_politician_choice_afd_cdu = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         
    
@@ -140,7 +145,7 @@ class DonationDecisions(Page):
         
     def before_next_page(self):
         self.participant.progress += 1
-        self.player.time_after_donation_decisions = time.time()
+        self.player.time_after_donation_decisions = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     def vars_for_template(self):
         # Define the sliders and shuffle them
@@ -170,7 +175,7 @@ class MechanismQuestion(Page):
         
     def before_next_page(self):
         self.participant.progress += 1
-        self.player.time_after_mechanism_question = time.time()
+        self.player.time_after_mechanism_question = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     def vars_for_template(self):
         return {
             'progress_percentage': self.participant.progress / 8 * 100
@@ -185,7 +190,7 @@ class ExperimenterDemand(Page):
 
     def before_next_page(self):
         self.participant.progress += 1
-        self.player.time_after_experimenter_demand = time.time()
+        self.player.time_after_experimenter_demand = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     def vars_for_template(self):
         return {
             'progress_percentage': self.participant.progress / 8 * 100
@@ -226,7 +231,7 @@ class PrimerTreatment(Page):
     
     def before_next_page(self):
         self.participant.progress += 1
-        self.player.time_after_primer = time.time()
+        self.player.time_after_primer = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 
@@ -249,7 +254,7 @@ class ClosenessToParty(Page):
 
     def before_next_page(self):
         self.participant.progress += 1
-        self.player.time_after_closeness_to_party = time.time()
+        self.player.time_after_closeness_to_party = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     def vars_for_template(self):
         sliders = [
@@ -291,11 +296,11 @@ class PrimerActiveControl(Page):
 
     def before_next_page(self):
         self.participant.progress += 1
-        self.player.time_after_primer = time.time()
+        self.player.time_after_primer = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
  
 
     
 
 
-page_sequence = [DonationDecisions, ClosenessToParty,  Consent,  PrimerActiveControl, PrimerTreatment, EndOfSurvey ]
+page_sequence = [  ProlificID, Consent,  PrimerActiveControl, PrimerTreatment, DonationDecisions, ClosenessToParty, EndOfSurvey ]
