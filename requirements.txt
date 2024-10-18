@@ -6,3 +6,4 @@ psycopg2-binary>=2.8.4
 sentry-sdk==0.7.9
 django-crispy-forms==2.0
 crispy-bootstrap5==0.7
+
