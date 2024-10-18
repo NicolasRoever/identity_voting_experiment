@@ -143,17 +143,18 @@ class DonationDecisions(Page):
         self.player.time_after_donation_decisions = time.time()
 
     def vars_for_template(self):
-
         # Define the sliders and shuffle them
         sliders = [
-            {'name': 'donation_spd', 'label': 'SPD', 'value': 5},
-            {'name': 'donation_cdu', 'label': 'CDU', 'value': 5},
-            {'name': 'donation_afd', 'label': 'AfD', 'value': 5},
+            {'name': 'donation_spd', 'label': 'SPD', 'for': 'id_donation_spd', 'id': 'donation_spd', 'value': 5},
+            {'name': 'donation_cdu', 'label': 'CDU', 'for': 'id_donation_cdu', 'id': 'donation_cdu', 'value': 5},
+            {'name': 'donation_afd', 'label': 'AfD', 'for': 'id_donation_afd', 'id': 'donation_afd', 'value': 5},
         ]
         random.shuffle(sliders)  # Randomize the order for each player
 
-        return {'sliders': sliders, 
-                'progress_percentage': self.participant.progress / 8 * 100}
+        return {
+            'sliders': sliders,
+            'progress_percentage': self.participant.progress / 8 * 100
+        }
 
         
 

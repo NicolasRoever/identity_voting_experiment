@@ -71,26 +71,14 @@
     Wir wählen 1% der Studienteilnehmer aus und setzen deren Entscheidungen um. 
 </p>
 
-<div class="slider-container">
-    <label for="id_donation_spd">SPD:</label>
-    <input type="range" id="id_donation_spd" name="donation_spd" class="slider" min="0" max="15" step="1" value="5">
-    <span id="spd-value">5 €</span>
-</div>
-{{formfield_errors 'donation_spd'}}
-
-<div class="slider-container">
-    <label for="id_donation_cdu">CDU:</label>
-    <input type="range" id="id_donation_cdu" name="donation_cdu" class="slider" min="0" max="15" step="1" value="5">
-    <span id="cdu-value">5 €</span>
-</div>
-{{formfield_errors 'donation_cdu'}}
-
-<div class="slider-container">
-    <label for="id_donation_afd">AfD:</label>
-    <input type="range" id="id_donation_afd" name="donation_afd" class="slider" min="0" max="15" step="1" value="5">
-    <span id="afd-value">5 €</span>
-</div>
-{{formfield_errors 'donation_afd'}}
+{% for slider in sliders %}
+    <div class="slider-container">
+        <label for="{{ slider.id }}">{{ slider.label }}:</label>
+        <input type="range" id="{{ slider.id }}" name="{{ slider.name }}" class="slider" min="0" max="15" step="1" value="{{ slider.value }}">
+        <span id="{{ slider.id }}-value">{{ slider.value }} €</span>
+    </div>
+    {{ formfield_errors slider.name }}
+{% endfor %}
 
 <div class="result-container">
     <p>Gesamtspenden: <strong id="total-donations" class="right-aligned">15 €</strong></p>
@@ -99,13 +87,6 @@
 
 <br>
 <br>
-
-{% for slider in sliders %}
-
-    {{slider.name}}
-
-{% endfor %}
-
 
 <script>
     const sliders = document.querySelectorAll('.slider');
