@@ -252,10 +252,17 @@ class ClosenessToParty(Page):
         self.player.time_after_closeness_to_party = time.time()
 
     def vars_for_template(self):
-        return {
-            'progress_percentage': self.participant.progress / 8 * 100
-        }
+        sliders = [
+            {'name': 'slider_spd', 'label': 'SPD'},
+            {'name': 'slider_cdu', 'label': 'CDU'},
+            {'name': 'slider_afd', 'label': 'AfD'},
+        ]
+        random.shuffle(sliders)
 
+        return {
+            'progress_percentage': self.participant.progress / 8 * 100,
+            'sliders': sliders
+        }
 class PrimerActiveControl(Page):
     form_model = 'player'
     form_fields = ['cultural_primer']

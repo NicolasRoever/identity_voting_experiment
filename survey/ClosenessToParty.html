@@ -47,34 +47,15 @@
 
 <br>
 
-   <hr>
-<div class="mb-3">
-   <br>
-   <label for="slider_spd" class="form-label"><strong>SPD</strong></label>
-   <br>
-   <div id="slider_spd" style="width: 80%; margin: 0 auto;" name="slider_spd"></div>
-</div>
-
-<hr>
-
-<div class="mb-3">
-   <br>
-   <label for="slider_cdu" class="form-label"><strong>CDU</strong></label>
-   <br>
-   <div id="slider_cdu" style="width: 80%; margin: 0 auto;" name="slider_cdu"></div>
-</div>
-
-<hr>
-
-
-
-<div class="mb-3">
-   <br>
-   <label for="slider_afd" class="form-label"><strong>AfD</strong></label>
-   <br>
-   <div id="slider_afd" style="width: 80%; margin: 0 auto;" name="slider_afd"></div>
-</div> 
-
+{% for slider in sliders %}
+    <hr>
+    <div class="mb-3">
+       <br>
+       <label for="{{ slider.name }}" class="form-label"><strong>{{ slider.label }}</strong></label>
+       <br>
+       <div id="{{ slider.name }}" style="width: 80%; margin: 0 auto;" name="{{ slider.name }}"></div>
+    </div>
+{% endfor %}
 <hr>
 
 
