@@ -255,7 +255,7 @@ class PrimerTreatment(Page):
 
 
     def is_displayed(player):
-        return player.participant.treatment == True
+        return player.participant.treatment == True and player.participant.part_of_main_sample
     
     
     def before_next_page(self):
@@ -334,4 +334,4 @@ class PrimerActiveControl(Page):
     
 
 
-page_sequence = [  ScreenerQuestion, ScreenedOut, ProlificID, Consent,  PrimerActiveControl, PrimerTreatment, DonationDecisions, ClosenessToParty, EndOfSurvey ]
+page_sequence = [  ScreenerQuestion, ScreenedOut, ProlificID, Consent,   PrimerTreatment, DonationDecisions, ClosenessToParty, EndOfSurvey ]
