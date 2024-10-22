@@ -4,7 +4,7 @@ import time
 import random
 from datetime import datetime
 
-from .python_functions import count_words_in_string
+from .python_functions import count_words_in_string, apply_screener_criterion
 
 
 class Consent(Page):
@@ -20,6 +20,29 @@ class ProlificID(Page):
 
 class EndOfSurvey(Page):
     pass
+
+
+class ScreenerQuestion(Page):
+    form_model = 'player'
+
+
+    def get_form_fields(player):
+        form_fields = ['political_q_2', 'political_q_3', 'political_q_6', 'political_q_7']
+        random.shuffle(form_fields)
+        return form_fields
+
+
+    def before_next_page(self):
+        self.participant.progress += 1
+        self.player.time_after_screener_question = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self.participant.part_of_main_sample = apply_screener_criterion(self.player.political_q_6, self.player.political_q_7)
+
+
+
+
+class ScreenedOut(Page):
+    def is_displayed(player):
+        return not player.participant.part_of_main_sample
 
 
 class PoliticalOpinions(Page):
@@ -42,10 +65,16 @@ class EstimationQuestion(Page):
     def before_next_page(self):
         self.participant.progress += 1
         self.player.time_after_estimation_question = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
     def vars_for_template(self):
-        return {
-            'progress_percentage': self.participant.progress / 8 * 100
-        }
+        questions = [
+            {'field': 'political_q_2', 'label': 'Der gesetzliche Mindestlohn soll erhöht werden.'},
+            {'field': 'political_q_3', 'label': 'Auf hohe Vermögen soll wieder eine Steuer erhoben werden.'},
+            {'field': 'political_q_6', 'label': 'Sozialwohnungen sollen vorrangig an Deutsche vergeben werden.'},
+            {'field': 'political_q_7', 'label': 'Schwangerschaftsabbrüche sollten straffrei möglich sein.'}
+        ]
+        random.shuffle(questions)  # Shuffling the question order
+        return {'questions': questions}
 
 
 
@@ -298,9 +327,11 @@ class PrimerActiveControl(Page):
         self.participant.progress += 1
         self.player.time_after_primer = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+
+
  
 
     
 
 
-page_sequence = [  ProlificID, Consent,  PrimerActiveControl, PrimerTreatment, DonationDecisions, ClosenessToParty, EndOfSurvey ]
+page_sequence = [  ScreenerQuestion, ScreenedOut, ProlificID, Consent,  PrimerActiveControl, PrimerTreatment, DonationDecisions, ClosenessToParty, EndOfSurvey ]

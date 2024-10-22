@@ -16,7 +16,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
 )
 
-PARTICIPANT_FIELDS = ["treatment", "progress"]
+PARTICIPANT_FIELDS = ["treatment", "progress", "part_of_main_sample"]
 SESSION_FIELDS = []
 
 # ISO-639 code

@@ -20,7 +20,8 @@ class Group(BaseGroup):
 class Player(BasePlayer):
 
     age = models.IntegerField(label='Wie alt sind Sie?', min=13, max=125)
-    prolific_id = models.CharField(label='Bitte geben Sie hier Ihre Prolific ID ein: ', blank=True)
+
+    prolific_id = models.CharField(label='Bitte geben Sie hier Ihre Prolific ID ein: ')
 
     consent_form = models.BooleanField(label='Ich habe die Teilnehmebedingungen gelesen und bin mit der Teilnahme einverstanden.', 
         widget=widgets.CheckboxInput,
@@ -36,6 +37,8 @@ class Player(BasePlayer):
         choices=[['<1000', '<1000€'], ['1000-2000', '1000-2000€'], ['2000-3000', '2000-3000€'], ['3000-4000', '3000-4000€'], ['>4000', '>4000€']],
         label='Wie hoch ist Ihr monatliches Nettoeinkommen?'
     )
+
+
 
     # Define the fields for each survey question
     political_q_1 = models.StringField(
@@ -64,7 +67,7 @@ class Player(BasePlayer):
     )
     political_q_7 = models.StringField(
         choices=C.AGREE_OPTIONS,
-        label="Die EU soll sich dafür einsetzen, dass Schwangerschaftsabbrüche in allen Mitgliedstaaten straffrei möglich sind."
+        label="In Deutschland sollten Schwangerschaftsabbrüche in allen Bundesländern straffrei möglich und zugänglich sein."
     )
     political_q_8 = models.StringField(
         choices=C.AGREE_OPTIONS,
@@ -93,9 +96,9 @@ class Player(BasePlayer):
     word_count_society = models.IntegerField()
 
     # Political Closeness
-    slider_spd = models.IntegerField(blank=True)
-    slider_cdu = models.IntegerField(blank=True)
-    slider_afd = models.IntegerField(blank=True)
+    slider_spd = models.IntegerField()
+    slider_cdu = models.IntegerField()
+    slider_afd = models.IntegerField()
 
     # Politican Choices
 
