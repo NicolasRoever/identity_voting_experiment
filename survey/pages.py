@@ -21,6 +21,9 @@ class ProlificID(Page):
 class EndOfSurvey(Page):
     pass
 
+    def is_displayed(player):
+        return player.participant.part_of_main_sample
+
 
 class ScreenerQuestion(Page):
     form_model = 'player'
@@ -45,19 +48,174 @@ class ScreenedOut(Page):
         return not player.participant.part_of_main_sample
 
 
-class PoliticalOpinions(Page):
+
+class DonationDecisions(Page):
     form_model = 'player'
-    form_fields = ['political_q_1', 'political_q_2', 'political_q_3', 'political_q_4', 'political_q_5', 'political_q_6', 'political_q_7', 'political_q_8', 'political_q_9', 'political_q_10', ]
+    form_fields = ['donation_afd', 'donation_cdu', 'donation_spd']
+
+
+    def error_message(self, values):
+
+        if values["donation_afd"] + values["donation_cdu"] + values["donation_spd"] > 15:
+            return "Sie können maximal 15 Euro spenden."
+        
+    def before_next_page(self):
+        self.participant.progress += 1
+        self.player.time_after_donation_decisions = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    def vars_for_template(self):
+        # Define the sliders and shuffle them
+        sliders = [
+            {'name': 'donation_spd', 'label': 'SPD', 'for': 'id_donation_spd', 'id': 'donation_spd', 'value': 5},
+            {'name': 'donation_cdu', 'label': 'CDU', 'for': 'id_donation_cdu', 'id': 'donation_cdu', 'value': 5},
+            {'name': 'donation_afd', 'label': 'AfD', 'for': 'id_donation_afd', 'id': 'donation_afd', 'value': 5},
+        ]
+        random.shuffle(sliders)  # Randomize the order for each player
+
+        return {
+            'sliders': sliders,
+            'progress_percentage': self.participant.progress / 8 * 100
+        }
+    
+    def is_displayed(player):
+        return player.participant.part_of_main_sample
+
+
+
+class PrimerTreatment(Page):
+    form_model = 'player'
+    form_fields = ['cultural_primer']
+
+    template_name = 'global/Primer.html'
+
+    def vars_for_template(self):
+        return {
+            'picture_path': 'images/CSD.jpeg',
+            'picture_description': "Christopher Street Day 2023 in Köln", 
+            'question_primer': "Welche Emotionen verbinden Sie mit dem Christopher Street Day? Wie wichtig halten Sie den Christopher Street Day für unsere Gesellschaft?",
+            'question_society': "Wie wichtig sind ihrer Meinung nach Veranstaltungen wie der Christopher Street Day für unsere Gesellschaft?", 
+            'text_event_description': "Der Christopher Street Day findet jährlich in vielen Städten statt. Er erinnert an die Stonewall-Aufstände von 1969, die den Beginn der modernen LGBTQ+-Bewegung markieren. Der Politiker Karl Mandl  (CDU) beschreibt das Fest in Köln so: 'Köln steht für Selbstbewusstsein und Toleranz. Mit dem CSD feiert sich die Stadt daher auch selbst. Es ist mir eine Herzensangelegenheit, an diesem fröhlichen und friedlichen Fest teilnehmen zu können.'",
+            'progress_percentage': self.participant.progress / 8 * 100
+        }
+    
+    @staticmethod
+    def live_method(player, data):
+
+        if data.get('formfieldName') == 'cultural_primer':
+            words_in_individual_data = count_words_in_string(data.get('input', ''))
+            player.word_count_individual = words_in_individual_data
+
+
+    def is_displayed(player):
+        return player.participant.treatment == True and player.participant.part_of_main_sample
+    
+    
+    def before_next_page(self):
+        self.participant.progress += 1
+        self.player.time_after_primer = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+ 
+
+class ClosenessToParty(Page):
+    form_model = 'player'
+    form_fields = ['slider_spd', 'slider_cdu', 'slider_afd']
 
     def before_next_page(self):
         self.participant.progress += 1
-        self.player.time_after_political_opinions = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self.player.time_after_closeness_to_party = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+    def vars_for_template(self):
+        sliders = [
+            {'name': 'slider_spd', 'label': 'SPD'},
+            {'name': 'slider_cdu', 'label': 'CDU'},
+            {'name': 'slider_afd', 'label': 'AfD'},
+        ]
+        random.shuffle(sliders)
+
+        return {
+            'progress_percentage': self.participant.progress / 8 * 100,
+            'sliders': sliders
+        }
+    
+    def is_displayed(player):
+        return player.participant.part_of_main_sample
+
+
+
+page_sequence = [ ProlificID, Consent, ScreenerQuestion, ScreenedOut,  PrimerTreatment, DonationDecisions, ClosenessToParty, EndOfSurvey ]
+
+
+
+
+
+
+#--------------------------------
+
+#Graveyard
+
+class PrimerActiveControl(Page):
+    form_model = 'player'
+    form_fields = ['cultural_primer']
+
+    template_name = 'global/Primer.html'
+
+    def is_displayed(player):
+        return player.participant.treatment == False
+
+
+    def vars_for_template(self):
+        return {
+            'picture_path': 'images/karneval.jpg',
+            'picture_description': "Karneval 2023 in Köln", 
+            'question_primer': "Welche Emotionen verbinden Sie mit dem Karneval? Wie wichtig halten Sie den Karneval für unsere Gesellschaft?",
+            'question_society': "Wie wichtig sind ihrer Meinung nach Veranstaltungen wie der Karneval/Fasching für unsere Gesellschaft?", 
+            'text_event_description': "Der Karneval ist ein Fest, das in vielen Städten jährlich stattfindet. Er erinnert an historische Traditionen und Bräuche und entstand ursprünglich als Fest vor Beginn der Fastenzeit. Der Politiker Klaus Mandel (CDU) beschreibt das Fest so: 'Das Brauchtum und unsere Karnevalsgesellschaften sind für das Zusammenleben der Generationen sehr wichtig. Karneval hat die Kraft zu verbinden und Menschen mitzunehmen.'",
+            'progress_percentage': self.participant.progress / 8 * 100
+
+        }
+    
+    
+    def live_method(self, data):
+        # Handle the data sent from the client
+        pass
+
+    def before_next_page(self):
+        self.participant.progress += 1
+        self.player.time_after_primer = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
+
+class MechanismQuestion(Page):
+    form_model = 'player'
+    form_fields = ['issue_1_importance', 'issue_2_importance', 'issue_3_importance', 'issue_4_importance', 'issue_5_importance', 'issue_6_importance', 'issue_7_importance', 'issue_8_importance', 'issue_9_importance', 'issue_10_importance']
+
+    def error_message(self, values):
+        if sum(values.values()) != 100:
+            return "Die Summe der Punkte muss 100 ergeben."
+        
+    def before_next_page(self):
+        self.participant.progress += 1
+        self.player.time_after_mechanism_question = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    def vars_for_template(self):
+        return {
+            'progress_percentage': self.participant.progress / 8 * 100
+        }
+
+        
+
+
+class ExperimenterDemand(Page):
+    form_model = 'player'
+    form_fields = ['experiment_purpose']
+
+    def before_next_page(self):
+        self.participant.progress += 1
+        self.player.time_after_experimenter_demand = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     def vars_for_template(self):
         return {
             'progress_percentage': self.participant.progress / 8 * 100
         }
     
+   
 class EstimationQuestion(Page):
     form_model = 'player'
     form_fields = ['slider_taxes', 'slider_gays', 'slider_old_people']
@@ -161,177 +319,18 @@ class PoliticiansAfDCDU(Page):
    
 
 
-
-class DonationDecisions(Page):
+class PoliticalOpinions(Page):
     form_model = 'player'
-    form_fields = ['donation_afd', 'donation_cdu', 'donation_spd']
+    form_fields = ['political_q_1', 'political_q_2', 'political_q_3', 'political_q_4', 'political_q_5', 'political_q_6', 'political_q_7', 'political_q_8', 'political_q_9', 'political_q_10', ]
 
-
-    def error_message(self, values):
-
-        if values["donation_afd"] + values["donation_cdu"] + values["donation_spd"] > 15:
-            return "Sie können maximal 15 Euro spenden."
-        
     def before_next_page(self):
         self.participant.progress += 1
-        self.player.time_after_donation_decisions = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self.player.time_after_political_opinions = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    def vars_for_template(self):
-        # Define the sliders and shuffle them
-        sliders = [
-            {'name': 'donation_spd', 'label': 'SPD', 'for': 'id_donation_spd', 'id': 'donation_spd', 'value': 5},
-            {'name': 'donation_cdu', 'label': 'CDU', 'for': 'id_donation_cdu', 'id': 'donation_cdu', 'value': 5},
-            {'name': 'donation_afd', 'label': 'AfD', 'for': 'id_donation_afd', 'id': 'donation_afd', 'value': 5},
-        ]
-        random.shuffle(sliders)  # Randomize the order for each player
-
-        return {
-            'sliders': sliders,
-            'progress_percentage': self.participant.progress / 8 * 100
-        }
-
-        
-
-    
-
-class MechanismQuestion(Page):
-    form_model = 'player'
-    form_fields = ['issue_1_importance', 'issue_2_importance', 'issue_3_importance', 'issue_4_importance', 'issue_5_importance', 'issue_6_importance', 'issue_7_importance', 'issue_8_importance', 'issue_9_importance', 'issue_10_importance']
-
-    def error_message(self, values):
-        if sum(values.values()) != 100:
-            return "Die Summe der Punkte muss 100 ergeben."
-        
-    def before_next_page(self):
-        self.participant.progress += 1
-        self.player.time_after_mechanism_question = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     def vars_for_template(self):
         return {
             'progress_percentage': self.participant.progress / 8 * 100
         }
-
-        
-
-
-class ExperimenterDemand(Page):
-    form_model = 'player'
-    form_fields = ['experiment_purpose']
-
-    def before_next_page(self):
-        self.participant.progress += 1
-        self.player.time_after_experimenter_demand = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    def vars_for_template(self):
-        return {
-            'progress_percentage': self.participant.progress / 8 * 100
-        }
-
-
-    
-
-
-class PrimerTreatment(Page):
-    form_model = 'player'
-    form_fields = ['cultural_primer']
-
-    template_name = 'global/Primer.html'
-
-    def vars_for_template(self):
-        return {
-            'picture_path': 'images/CSD.jpeg',
-            'picture_description': "Christopher Street Day 2023 in Köln", 
-            'question_primer': "Welche Emotionen verbinden Sie mit dem Christopher Street Day? Wie wichtig halten Sie den Christopher Street Day für unsere Gesellschaft?",
-            'question_society': "Wie wichtig sind ihrer Meinung nach Veranstaltungen wie der Christopher Street Day für unsere Gesellschaft?", 
-            'text_event_description': "Der Christopher Street Day findet jährlich in vielen Städten statt. Er erinnert an die Stonewall-Aufstände von 1969, die den Beginn der modernen LGBTQ+-Bewegung markieren. Der Politiker Karl Mandl  (CDU) beschreibt das Fest in Köln so: 'Köln steht für Selbstbewusstsein und Toleranz. Mit dem CSD feiert sich die Stadt daher auch selbst. Es ist mir eine Herzensangelegenheit, an diesem fröhlichen und friedlichen Fest teilnehmen zu können.'",
-            'progress_percentage': self.participant.progress / 8 * 100
-        }
-    
-    @staticmethod
-    def live_method(player, data):
-
-        if data.get('formfieldName') == 'cultural_primer':
-            words_in_individual_data = count_words_in_string(data.get('input', ''))
-            player.word_count_individual = words_in_individual_data
-
-
-
-    def is_displayed(player):
-        return player.participant.treatment == True and player.participant.part_of_main_sample
-    
-    
-    def before_next_page(self):
-        self.participant.progress += 1
-        self.player.time_after_primer = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-
-
-    
-        
-    
-
-
-   # def error_message(self, values):
-    #    # Perform your validation here
-     #   if self.player.field_maybe_none('word_count_individual') < 20:
-      #      return 'Bitte geben Sie mindestens 20 Wörter in der ersten Frage ein.'
-       ##    return 'Bitte geben Sie mindestens 20 Wörter in der zweiten Frage ein.'
-
- 
-
-class ClosenessToParty(Page):
-    form_model = 'player'
-    form_fields = ['slider_spd', 'slider_cdu', 'slider_afd']
-
-    def before_next_page(self):
-        self.participant.progress += 1
-        self.player.time_after_closeness_to_party = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-    def vars_for_template(self):
-        sliders = [
-            {'name': 'slider_spd', 'label': 'SPD'},
-            {'name': 'slider_cdu', 'label': 'CDU'},
-            {'name': 'slider_afd', 'label': 'AfD'},
-        ]
-        random.shuffle(sliders)
-
-        return {
-            'progress_percentage': self.participant.progress / 8 * 100,
-            'sliders': sliders
-        }
-class PrimerActiveControl(Page):
-    form_model = 'player'
-    form_fields = ['cultural_primer']
-
-    template_name = 'global/Primer.html'
-
-    def is_displayed(player):
-        return player.participant.treatment == False
-
-
-    def vars_for_template(self):
-        return {
-            'picture_path': 'images/karneval.jpg',
-            'picture_description': "Karneval 2023 in Köln", 
-            'question_primer': "Welche Emotionen verbinden Sie mit dem Karneval? Wie wichtig halten Sie den Karneval für unsere Gesellschaft?",
-            'question_society': "Wie wichtig sind ihrer Meinung nach Veranstaltungen wie der Karneval/Fasching für unsere Gesellschaft?", 
-            'text_event_description': "Der Karneval ist ein Fest, das in vielen Städten jährlich stattfindet. Er erinnert an historische Traditionen und Bräuche und entstand ursprünglich als Fest vor Beginn der Fastenzeit. Der Politiker Klaus Mandel (CDU) beschreibt das Fest so: 'Das Brauchtum und unsere Karnevalsgesellschaften sind für das Zusammenleben der Generationen sehr wichtig. Karneval hat die Kraft zu verbinden und Menschen mitzunehmen.'",
-            'progress_percentage': self.participant.progress / 8 * 100
-
-        }
-    
-    
-    def live_method(self, data):
-        # Handle the data sent from the client
-        pass
-
-    def before_next_page(self):
-        self.participant.progress += 1
-        self.player.time_after_primer = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-
-
  
 
     
-
-
-page_sequence = [  ScreenerQuestion, ScreenedOut, ProlificID, Consent,   PrimerTreatment, DonationDecisions, ClosenessToParty, EndOfSurvey ]

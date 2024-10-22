@@ -158,6 +158,7 @@ class Player(BasePlayer):
     time_after_experimenter_demand = models.StringField()
     time_after_demographics = models.StringField()
     time_after_end_of_survey = models.StringField()
+    time_after_screener_question = models.StringField()
 
 
 

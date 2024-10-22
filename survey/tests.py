@@ -19,6 +19,16 @@ class PlayerBot(Bot):
         yield pages.Consent, {
              'consent_form': True
        }
+        
+        #---Screener---#
+
+        yield pages.ScreenerQuestion, {
+            'political_q_6': 'agree',
+            'political_q_7': 'disagree',
+            'political_q_2': 'agree',
+            'political_q_3': 'disagree'
+            
+        }
          
 
         #---Primer Page---#
@@ -33,14 +43,6 @@ class PlayerBot(Bot):
 
             expect(self.player.cultural_primer, 'This is a sample response for the individual question.')
 
-        else:
-            
-
-            yield pages.PrimerActiveControl, {
-                'cultural_primer': 'This is a sample response for the individual question.'
-            }
-
-            expect(self.player.cultural_primer, 'This is a sample response for the individual question.')
 
                 
      #---Donation Question---#
@@ -64,6 +66,8 @@ class PlayerBot(Bot):
 
 
         #---Closeness to Party---#
+
+        
 
 
     
