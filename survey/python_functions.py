@@ -1,4 +1,4 @@
-
+from datetime import datetime
 
 def count_words_in_string(text):
     words = text.split()
@@ -19,3 +19,11 @@ def apply_screener_criterion(answer_question_6, answer_question_7):
         return True
     else:
         return False
+    
+def calculate_time_spent(start_time_str, end_time_str):
+    """ Calculate the time spent in minutes and seconds between two timestamps. """
+    start_time = datetime.strptime(start_time_str, "%Y-%m-%d %H:%M:%S")
+    end_time = datetime.strptime(end_time_str, "%Y-%m-%d %H:%M:%S")
+    duration = end_time - start_time
+    minutes, seconds = divmod(duration.seconds, 60)
+    return f"{minutes:02d}:{seconds:02d}"
