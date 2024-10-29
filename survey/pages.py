@@ -18,10 +18,23 @@ class Consent(Page):
 class EndOfSurvey(Page):
     pass
 
-    def is_displayed(player):
-        return player.participant.part_of_main_sample
-    
 
+
+    #Screener Questions
+class ScreenerQuestion(Page):
+    form_model = 'player'
+
+
+    def get_form_fields(player):
+        form_fields = ['political_q_2', 'political_q_3', 'political_q_6', 'political_q_7']
+        random.shuffle(form_fields)
+        return form_fields
+
+
+    def before_next_page(self):
+        self.participant.progress += 1
+        self.player.time_after_screener_question = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self.participant.part_of_main_sample = apply_screener_criterion(self.player.political_q_6, self.player.political_q_7)
 
 
 
@@ -53,8 +66,7 @@ class DonationDecisions(Page):
             'progress_percentage': self.participant.progress / 8 * 100
         }
     
-    def is_displayed(player):
-        return player.participant.part_of_main_sample
+
 
 
 
@@ -83,7 +95,14 @@ class PrimerTreatment(Page):
 
 
     def is_displayed(player):
-        return player.participant.treatment == True and player.participant.part_of_main_sample
+        return player.participant.treatment == True 
+    
+
+    def error_message(self, values):
+        words_in_primer = count_words_in_string(values['cultural_primer'])
+        self.player.word_count_primer = words_in_primer
+        if words_in_primer < 20:
+            return "Bitte schreiben Sie mindestens 20 Wörter."
     
     
     def before_next_page(self):
@@ -114,12 +133,15 @@ class ClosenessToParty(Page):
             'sliders': sliders
         }
     
-    def is_displayed(player):
-        return player.participant.part_of_main_sample
+
+class PayPal(Page):
+    form_model = 'player'
+    form_fields = ['paypal_email']
 
 
 
-page_sequence = [ ProlificID, Consent, ScreenerQuestion, ScreenedOut,  PrimerTreatment, DonationDecisions, ClosenessToParty, EndOfSurvey ]
+
+page_sequence = [ Consent, ScreenerQuestion, PrimerTreatment, DonationDecisions, ClosenessToParty, PayPal, EndOfSurvey ]
 
 
 

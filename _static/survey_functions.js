@@ -67,7 +67,6 @@ function setupPointsSummation(formfieldNames, totalElementId) {
 function sendTextInputToServer(formfieldName){
     var input = document.getElementById(formfieldName).value;
    liveSend({formfieldName, input});
-    console.log(formfieldName + ": " + input);
 }
 
 

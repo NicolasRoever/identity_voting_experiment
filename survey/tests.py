@@ -7,11 +7,6 @@ class PlayerBot(Bot):
 
     def play_round(self):
 
-        #---Prolific ID---#
-
-        yield pages.ProlificID, {
-            'prolific_id': '1234567890'
-        }
 
 
          #---Consent---#
@@ -37,13 +32,17 @@ class PlayerBot(Bot):
         if self.player.participant.vars.get('treatment') == True:
 
 
-            yield pages.PrimerTreatment, {
+            yield SubmissionMustFail(pages.PrimerTreatment, {
                 'cultural_primer': 'This is a sample response for the individual question.'
+            })
+
+
+            
+            yield pages.PrimerTreatment, {
+                'cultural_primer': 'This is a sample response for the individual question. This is a sample response for the individual question. This is a sample response for the individual question.'
             }
-
-            expect(self.player.cultural_primer, 'This is a sample response for the individual question.')
-
-
+            
+            expect(self.player.cultural_primer, 'This is a sample response for the individual question. This is a sample response for the individual question. This is a sample response for the individual question.')
                 
      #---Donation Question---#
         
