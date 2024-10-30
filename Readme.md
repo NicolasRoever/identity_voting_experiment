@@ -42,7 +42,7 @@ These are the commands for the university server we are using to run the experim
 
 - This command deletes the current project: 
 
-> rsync --delete -Pa bargaining_experiment  otree15@otree2.uni-koeln.de:Projects/
+> rsync --delete -Pa identity_voting_experiment  otree15@otree2.uni-koeln.de:Projects/
 
 -  This command starts the server
 > ssh otree15@otree2.uni-koeln.de

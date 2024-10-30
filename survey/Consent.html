@@ -1,50 +1,54 @@
 {% extends "global/Page.html" %}
 {% load static %}
 
+
+
+
+
 {% block page_content %}
 
 <h1 style="text-align: left;">Herzlich Willkommen!</h1>
 
 
-Diese Studie wird von Forschern der der Universität zu Köln durchgeführt. Bei Fragen zur Studie können Sie uns gerne per E-Mail unter nicolas.roever@wiso.uni-koeln.de kontaktieren.
+<b>Wenn Sie diese Umfrage vollständig beantworten, erhalten Sie eine Auszahlung von {{ session.config.payment }} Cent.</b>
 <br>
 Das Ziel dieser Studie ist es, die Weltanschauung und Meinung von Bürgern in Deutschland zu erforschen. 
 <b>Ihre Antworten bleiben komplett anonym und es ist wichtig, dass Sie ihre tatsächlichen Meinungen angeben.</b>
-
-<br>
 <br>
 
-<h4>Ihre Rechte</h4>
+<div class="container mt-5">
+    <button class="btn btn-light w-100 text-start p-3 border shadow-sm btn-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#detailedRights" aria-expanded="false" aria-controls="detailedRights">
+        <h4 class="m-0">Ihre Rechte und Teilnahmebedingungen im Detail ▼</h4>
+    </button>
 
-<p>Ihre Teilnahme an dieser Umfrage ist freiwillig. Sie können jederzeit und ohne Angabe von Gründen von der Umfrage zurücktreten und die Umfrage jederzeit verlassen. Dann erhalten Sie jedoch keine Auszahlung.</p>
-
-<br>
-
-
-<div class="d-flex flex-wrap">
-    <div class="mr-2 flex-fill">
-        <h4>Verantwortlicher für den Datenschutz</h4>
-
-        <p>Nicolas Roever, Universität zu Köln<br />
-        Albertus-Magnus-Platz<br />
-        50923 Köln<br />
-        E-Mail: <a href="mailto:nicolas.roever@wiso.uni-koeln.de">nicolas.roever@wiso.uni-koeln.de</a></p>
-    </div>
-    <div class="flex-fill">
-        <h4>Kontaktdaten des Datenschutzbeauftragten</h4>
-
-        <p>Datenschutzbeauftragter der Universität zu Köln<br />
-        Albertus-Magnus-Platz<br />
-        50923 Köln<br />
-        E-Mail: <a href="mailto:dsb@verw.uni-koeln.de">dsb@verw.uni-koeln.de</a><br />
-        Telefon: 0221-470-0</p>
+    <div class="collapse" id="detailedRights">
+        <div class="card card-body mt-2">
+            <p>Ihre Teilnahme an dieser Umfrage ist freiwillig. Sie können jederzeit und ohne Angabe von Gründen von der Umfrage zurücktreten und die Umfrage jederzeit verlassen. Dann erhalten Sie jedoch keine Auszahlung.</p>
+            <p>Diese Studie wird von Forschern der der Universität zu Köln durchgeführt. Bei Fragen zur Studie können Sie uns gerne per E-Mail unter <a href="mailto:nicolas.roever@wiso.uni-koeln.de">nicolas.roever@wiso.uni-koeln.de</a> kontaktieren.</p>
+            <div class="d-flex flex-wrap">
+                <div class="me-4 flex-fill">
+                    <h4>Verantwortlicher für den Datenschutz</h4>
+                    <p>Nicolas Roever, Universität zu Köln<br />
+                        Albertus-Magnus-Platz<br />
+                        50923 Köln<br />
+                        E-Mail: <a href="mailto:nicolas.roever@wiso.uni-koeln.de">nicolas.roever@wiso.uni-koeln.de</a>
+                    </p>
+                </div>
+                <div class="flex-fill">
+                    <h4>Kontaktdaten des Datenschutzbeauftragten</h4>
+                    <p>Datenschutzbeauftragter der Universität zu Köln<br />
+                        Albertus-Magnus-Platz<br />
+                        50923 Köln<br />
+                        E-Mail: <a href="mailto:dsb@verw.uni-koeln.de">dsb@verw.uni-koeln.de</a><br />
+                        Telefon: 0221-470-0</p>
+                </div>
+            </div>
+            <h4>Ethikkommission</h4>
+            <p>Wenn Sie sich unfair behandelt fühlen, wenden Sie sich bitte an die Ethikkommission der WiSo Fakultät, Universität zu Köln, Referenznummer: 240057NR (<a href="mailto:erb-application@uni-koeln.de">erb-application@uni-koeln.de</a>)</p>
+        </div>
     </div>
 </div>
 
-
-
-<h4>Ethikkommission</h4>
-<p>Wenn Sie sich unfair behandelt fühlen, wenden Sie sich bitte an die Ethikkommission der WiSo Fakultät, Universität zu Köln, Referenznummer: 240057NR (<a href="mailto:erb-application@uni-koeln.de">erb-application@uni-koeln.de</a>)</p>
 
 <br>
 
@@ -59,4 +63,10 @@ Das Ziel dieser Studie ist es, die Weltanschauung und Meinung von Bürgern in De
 
 
 
+{% endblock %}
+
+{% block scripts %}
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 {% endblock %}
