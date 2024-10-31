@@ -66,7 +66,27 @@ class PlayerBot(Bot):
 
         #---Closeness to Party---#
 
-        
+        yield pages.ClosenessToParty
+
+
+
+        #---Demographics---#
+
+        yield pages.Demographics, {
+            'gender': 'Male',
+            'income': '1000-2000',
+            'education': 'university'
+        }
+
+        #---Paypal---#
+
+        yield SubmissionMustFail(pages.PayPal)
+
+        yield pages.PayPal, {
+            'paypal_email': 'valid-email@example.com'
+        }
+
+        expect(self.player.paypal_email, 'valid-email@example.com')
 
 
     

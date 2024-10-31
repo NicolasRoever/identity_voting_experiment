@@ -117,7 +117,7 @@ class ClosenessToParty(Page):
     def before_next_page(self):
         self.participant.progress += 1
         self.player.time_after_closeness_to_party = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        self.player.time_for_study = calculate_time_spent(start_time_str=self.player.time_after_consent, end_time_str=self.player.time_after_closeness_to_party)
+
 
 
     def vars_for_template(self):
@@ -138,10 +138,27 @@ class PayPal(Page):
     form_model = 'player'
     form_fields = ['paypal_email']
 
+    def before_next_page(self):
+        self.player.time_after_paypal = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self.player.time_for_study = calculate_time_spent(start_time_str=self.player.time_after_consent, end_time_str=self.player.time_after_paypal)
+
+
+class Demographics(Page):
+    form_model = 'player'
+    form_fields = ['gender', 'income', 'education']
+
+    def get_form_fields(player):
+        form_fields = ['gender', 'income', 'education']
+        random.shuffle(form_fields)
+        return form_fields
+    
+    def before_next_page(self):
+        self.participant.progress += 1
+        self.player.time_after_demographics = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 
-page_sequence = [ Consent, ScreenerQuestion, PrimerTreatment, DonationDecisions, ClosenessToParty, PayPal, EndOfSurvey ]
+page_sequence = [ Consent, ScreenerQuestion, PrimerTreatment, DonationDecisions, ClosenessToParty, Demographics, PayPal, EndOfSurvey ]
 
 
 

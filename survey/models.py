@@ -27,13 +27,24 @@ class Player(BasePlayer):
     #Demographics
     gender = models.StringField(
     choices=[['Male', 'Mann'], ['Female', 'Frau'], ['Other', 'Divers']],
-    label='Welches Geschlecht haben Sie?',
-    widget=widgets.RadioSelect,
+    label='Welches Geschlecht haben Sie?'
     )
    
     income = models.StringField(
         choices=[['<1000', '<1000€'], ['1000-2000', '1000-2000€'], ['2000-3000', '2000-3000€'], ['3000-4000', '3000-4000€'], ['>4000', '>4000€']],
         label='Wie hoch ist Ihr monatliches Nettoeinkommen?'
+    )
+
+    education = models.StringField(
+        choices=[
+            ['none', 'Kein Schulabschluss'],
+            ['hauptschule', 'Hauptschulabschluss'],
+            ['realschule', 'Realschulabschluss'],
+            ['abitur', 'Abitur'],
+            ['university', 'Hochschulabschluss'],
+            ['other', 'Sonstiger Abschluss']
+        ],
+        label='Was ist Ihr höchster Bildungsabschluss?'
     )
 
 
@@ -92,9 +103,9 @@ class Player(BasePlayer):
     word_count_primer = models.IntegerField(initial=0)
 
     # Political Closeness
-    slider_spd = models.IntegerField()
-    slider_cdu = models.IntegerField()
-    slider_afd = models.IntegerField()
+    slider_spd = models.IntegerField(blank=True)
+    slider_cdu = models.IntegerField(blank=True)
+    slider_afd = models.IntegerField(blank=True)
 
 
     #Donation Decisions
@@ -115,6 +126,8 @@ class Player(BasePlayer):
     time_after_end_of_survey = models.StringField()
     time_for_study = models.StringField()
     time_after_screener_question = models.StringField()
+    time_after_demographics = models.StringField()
+    time_after_paypal = models.StringField()
 
     #paypal
     paypal_email = models.StringField(label='PayPal E-Mail-Adresse:')
@@ -125,12 +138,15 @@ class Player(BasePlayer):
 class Subsession(BaseSubsession):
 
     def creating_session(subsession):
-        print("Creating session.")
         treatments = itertools.cycle([True, False])
         for player in subsession.get_players():
             player.participant.vars['treatment'] = next(treatments)
             player.participant.vars['progress'] = 1
-
+        
+            if player.participant.vars['treatment'] == True:
+                player.participant.vars['totalsteps'] = 5
+            else:
+                player.participant.vars['totalsteps'] = 4
 
 
 
