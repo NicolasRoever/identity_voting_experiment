@@ -23,6 +23,7 @@ The participant can only click next, if all questions are answered.
 
 ## To-Dos
 
+- Program the edge case for the mechanism question if a person finds 2 parties equally close. 
 - Make sure consent form is correct
 - Make sure that you can deselct the radio buttons in the statement pages. 
 - Check the thing on mobile devices.

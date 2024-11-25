@@ -3,8 +3,8 @@ from os import environ
 
 SESSION_CONFIGS = [
     dict(
-        name='survey', app_sequence=['survey'], num_demo_participants=4, 
-        payment = 50
+        name='survey', app_sequence=["clerpay_start", "survey", "clerpay_end"], num_demo_participants=4, 
+        payment = 0.50
     )
 ]
 
@@ -17,7 +17,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
 )
 
-PARTICIPANT_FIELDS = ["treatment", "progress", "part_of_main_sample", "totalsteps"]
+PARTICIPANT_FIELDS = ["treatment", "progress", "part_of_main_sample", "totalsteps", "clerpay_amount"]
 SESSION_FIELDS = []
 
 # ISO-639 code

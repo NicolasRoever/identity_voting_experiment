@@ -27,3 +27,14 @@ def calculate_time_spent(start_time_str, end_time_str):
     duration = end_time - start_time
     minutes, seconds = divmod(duration.seconds, 60)
     return f"{minutes:02d}:{seconds:02d}"
+
+
+def get_closest_party(value_spd, value_cdu, value_afd):
+    """ Get the closest party to the participant's answers.
+    In case of ties, prioritizes parties in the order: SPD > CDU > AfD """
+    if value_spd >= value_cdu and value_spd >= value_afd:
+        return 'SPD'
+    elif value_cdu >= value_spd and value_cdu >= value_afd:
+        return 'CDU'
+    else:
+        return 'AfD'

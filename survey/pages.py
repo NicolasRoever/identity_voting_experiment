@@ -4,7 +4,7 @@ import time
 import random
 from datetime import datetime
 
-from .python_functions import count_words_in_string, apply_screener_criterion, calculate_time_spent
+from .python_functions import count_words_in_string, apply_screener_criterion, calculate_time_spent, get_closest_party
 
 
 class Consent(Page):
@@ -108,7 +108,28 @@ class PrimerTreatment(Page):
     def before_next_page(self):
         self.participant.progress += 1
         self.player.time_after_primer = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
- 
+
+class MechanismQuestion2(Page):
+    form_model = 'player'
+    form_fields = ['important_topics_tax', 'important_topics_debt', 'important_topics_integration', 'important_topics_family']
+
+    def get_form_fields(player):
+        form_fields = ['important_topics_tax', 'important_topics_debt', 'important_topics_integration', 'important_topics_family']
+        random.shuffle(form_fields)
+        return form_fields
+
+    def before_next_page(self):
+        self.participant.progress += 1
+  
+
+    def vars_for_template(self):
+        return {
+            'progress_percentage': self.participant.progress / 8 * 100, 
+            'closest_party': self.player.closest_party
+        }
+
+
+
 
 class ClosenessToParty(Page):
     form_model = 'player'
@@ -117,6 +138,13 @@ class ClosenessToParty(Page):
     def before_next_page(self):
         self.participant.progress += 1
         self.player.time_after_closeness_to_party = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        closest_party = get_closest_party(
+            value_spd=self.player.slider_spd,
+            value_cdu=self.player.slider_cdu,
+            value_afd=self.player.slider_afd
+        )
+        self.player.closest_party = closest_party
 
 
 
@@ -134,13 +162,6 @@ class ClosenessToParty(Page):
         }
     
 
-class PayPal(Page):
-    form_model = 'player'
-    form_fields = ['paypal_email']
-
-    def before_next_page(self):
-        self.player.time_after_paypal = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        self.player.time_for_study = calculate_time_spent(start_time_str=self.player.time_after_consent, end_time_str=self.player.time_after_paypal)
 
 
 class Demographics(Page):
@@ -155,10 +176,10 @@ class Demographics(Page):
     def before_next_page(self):
         self.participant.progress += 1
         self.player.time_after_demographics = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self.player.participant.clerpay_amount = self.session.config['payment']
 
 
-
-page_sequence = [ Consent, ScreenerQuestion, PrimerTreatment, DonationDecisions, ClosenessToParty, Demographics, PayPal, EndOfSurvey ]
+page_sequence = [Demographics]
 
 
 

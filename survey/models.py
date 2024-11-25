@@ -9,7 +9,9 @@ class C(BaseConstants):
         ('agree', 'Stimme zu'),
         ('neutral', 'Neutral'),
         ('disagree', 'Stimme nicht zu')
-    ]
+    ], 
+
+
 
 
 
@@ -47,6 +49,30 @@ class Player(BasePlayer):
         label='Was ist Ihr höchster Bildungsabschluss?'
     )
 
+
+    #Important Topics 
+    important_topics_tax = models.BooleanField(
+        label='Aehnliche Auffassung bei Steuerpolitik',
+
+        widget=widgets.CheckboxInput,
+    )
+    important_topics_debt = models.BooleanField(
+        label='Aehnliche Auffassung wie viele Schulden der Staat haben sollte',
+
+        widget=widgets.CheckboxInput,
+    )
+    important_topics_integration = models.BooleanField(
+        label='Aehnliche Auffassung wie Integration fremder Kulturen funktionieren sollte',
+        widget=widgets.CheckboxInput,
+    )
+    important_topics_family = models.BooleanField(
+        label='Aehnliche Auffassung wie Familie stärker gefördert werden sollte',
+        widget=widgets.CheckboxInput,
+    )
+
+    #Closest Party
+    closest_party = models.StringField(
+    )
 
 
     # Define the fields for each survey question
@@ -103,9 +129,9 @@ class Player(BasePlayer):
     word_count_primer = models.IntegerField(initial=0)
 
     # Political Closeness
-    slider_spd = models.IntegerField(blank=True)
-    slider_cdu = models.IntegerField(blank=True)
-    slider_afd = models.IntegerField(blank=True)
+    slider_spd = models.IntegerField()
+    slider_cdu = models.IntegerField()
+    slider_afd = models.IntegerField()
 
 
     #Donation Decisions

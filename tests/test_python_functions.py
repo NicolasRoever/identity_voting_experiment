@@ -1,4 +1,4 @@
-from survey.python_functions import apply_screener_criterion, calculate_time_spent
+from survey.python_functions import apply_screener_criterion, calculate_time_spent, get_closest_party
 import pytest
 from datetime import datetime, timedelta
 
@@ -69,6 +69,36 @@ def test_calculate_time_spent_invalid_format():
         calculate_time_spent("2023-04-15", "2023-04-16")
 
 
+# Test get_closest_party
+
+
+def test_get_closest_party_spd_clear_winner():
+    # Test when SPD has the highest value
+    assert get_closest_party(4, 1, 2) == 'SPD'
+
+def test_get_closest_party_cdu_clear_winner():
+    # Test when CDU has the highest value
+    assert get_closest_party(1, 4, 2) == 'CDU'
+
+def test_get_closest_party_afd_clear_winner():
+    # Test when AfD has the highest value
+    assert get_closest_party(1, 2, 4) == 'AfD'
+
+def test_get_closest_party_spd_cdu_tie():
+    # Test when SPD and CDU are tied for highest
+    assert get_closest_party(3, 3, 1) == 'SPD'
+
+def test_get_closest_party_spd_afd_tie():
+    # Test when SPD and AfD are tied for highest
+    assert get_closest_party(3, 1, 3) == 'SPD'
+
+def test_get_closest_party_cdu_afd_tie():
+    # Test when CDU and AfD are tied for highest
+    assert get_closest_party(1, 3, 3) == 'CDU'
+
+def test_get_closest_party_all_equal():
+    # Test when all values are equal
+    assert get_closest_party(2, 2, 2) == 'SPD'
 
 
 
