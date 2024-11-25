@@ -1,0 +1,24 @@
+{% extends "global/Page.html" %}
+{% load static %}
+
+{% block page_content %}
+
+{{ include_sibling 'progress.html' }}
+
+<h1 style="text-align: left;">Politische Themen</h1>
+
+
+Sie haben bei der letzten Frage angegeben, dass Sie der Partei {{ closest_party }} am nächsten stehen. 
+Kreuzen Sie die Themen an, bei denen Sie eine sehr ähnliche Meinung wie diese Partei haben.
+
+<br>
+<br>
+
+{{ formfields }}
+
+<br>
+<br>
+
+{% next_button %}
+
+{% endblock %}

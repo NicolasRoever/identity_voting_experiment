@@ -1,0 +1,21 @@
+{% extends "global/Page.html" %}
+{% load static %}
+
+{% block page_content %}
+
+{{ include_sibling 'progress.html' }}
+
+<h1 style="text-align: left;">Angaben zur Person</h1>
+
+<hr>
+
+{{ formfields }}
+
+<hr>
+
+{{ next_button }}
+
+
+
+
+{% endblock %}
